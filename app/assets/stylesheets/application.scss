@@ -14,6 +14,7 @@
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome";
 
 @import "shares/header";
 
@@ -51,4 +52,37 @@
   height:1px;
   background:#717171;
   border-bottom:1px solid #d2d2d2;
+}
+
+.top-image {
+  .thumbnail {
+    border: none;
+  }
+}
+
+.users-table {
+  img {
+    width: 30px;
+  }
+
+  .circle-heart {
+    padding: 5px;
+    background-color: #c1272d;
+    color: white;
+    border-radius: 50%;
+  }
+
+  .circle-comment {
+    padding: 5px;
+    background-color: #fbb03b;
+    color: white;
+    border-radius: 50%;
+  }
+
+  .circle-check {
+    padding: 5px;
+    background-color: #09a91c;
+    color: white;
+    border-radius: 50%;
+  }
 }
