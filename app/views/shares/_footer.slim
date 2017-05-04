@@ -1,4 +1,5 @@
 .container
   .row
-    - if user_signed_in?
-       = link_to 'Sign out', destroy_user_session_path, method: :delete
+    .col-sm-12
+      - if user_signed_in?
+         = link_to 'Sign out', destroy_user_session_path, method: :delete
