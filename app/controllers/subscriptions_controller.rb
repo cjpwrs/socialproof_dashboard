@@ -10,17 +10,16 @@ class SubscriptionsController < ApplicationController
   def create
     plan_id = subscriptions_params['plan']
     plan = Stripe::Plan.retrieve(plan_id)
+    
+    customer = Stripe::Customer.create(
+                  :description => "Customer for #{current_user.email}",
+                  :source => subscriptions_params['stripe_card_token'],
+                  :email => "#{current_user.email}"
+                )
+    stripe_subscription = customer.subscriptions.create(:plan => plan.id)
 
-    @subscription = current_user.subscriptions.new(subscriptions_params)
-
+    @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription)
     if @subscription.save
-      customer = Stripe::Customer.create(
-                    :description => "Customer for #{current_user.email}",
-                    :source => subscriptions_params['stripe_card_token'],
-                    :email => "#{current_user.email}"
-                  )
-      stripe_subscription = customer.subscriptions.create(:plan => plan.id)
-
       redirect_to root_path
     else
       render :new_subscription

@@ -4,7 +4,7 @@
     = f.hidden_field :stripe_card_token
     = f.hidden_field :email, input_html: { value: "#{current_user.email}" }
     = f.input :plan, collection: @plans, include_blank: false
-    = f.input :card_number, input_html: { data: { stripe: "number" }, value: "4242424242424242" }
-    = f.input :card_expiry, input_html: { data: { stripe: "card_expiry" }, value: "11/22" }
-    = f.input :card_cvc, input_html: { data: { stripe: "cvc" }, value: "123" }
+    = f.input :card_number, input_html: { data: { stripe: "number" } }
+    = f.input :card_expiry, input_html: { data: { stripe: "card_expiry" } }
+    = f.input :card_cvc, input_html: { data: { stripe: "cvc" } }
     = f.button :submit, 'Subscribe', class: 'submit'
