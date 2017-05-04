@@ -1,12 +1,15 @@
 .container
-  - plan = @strip_subscription_json.items.data.first.plan
   h1 Your Subsription
-  dl.dl-horizontal
-    dt Your Plan
-    dd= plan.name
-    dt Billing Cycle
-    dd= plan.interval
-    dt Payment Details
-    dd= "Card ending in " + @card.first.last4
-    dt Upcoming Payment
-    dd= Time.at(@strip_subscription_json.current_period_start).strftime("%b/%d/%Y") + " #{(plan.amount.to_f/100).to_s}"
+  - if @strip_subscription_json.present? && @card.present?
+    - plan = @strip_subscription_json.items.data.first.plan
+    dl.dl-horizontal
+      dt Your Plan
+      dd= plan.name
+      dt Billing Cycle
+      dd= plan.interval
+      dt Payment Details
+      dd= "Card ending in " + @card.first.last4
+      dt Upcoming Payment
+      dd= Time.at(@strip_subscription_json.current_period_start).strftime("%b/%d/%Y") + " #{(plan.amount.to_f/100).to_s}"
+  - else
+    p Cannot get your card or subscription
