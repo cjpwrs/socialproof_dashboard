@@ -3,6 +3,7 @@ class CreateSubscription < ActiveRecord::Migration[5.0]
     create_table :subscriptions do |t|
       t.belongs_to :user, index: true
       t.string :stripe_customer_token
+      t.string :plan
 
       t.timestamps null: false
     end

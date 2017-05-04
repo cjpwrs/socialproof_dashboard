@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170502182454) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "stripe_customer_token"
+    t.string   "plan"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.index ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
