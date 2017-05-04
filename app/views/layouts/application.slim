@@ -18,8 +18,12 @@ html
       .row
         #header
           = render 'shares/header'
-          .notice= notice
-          .alert= alert
+          .container
+            - if flash[:notice]
+              .alert.alert-info= notice
+            - if flash[:alert]
+              .alert.alert-danger= alert
         #main-container
           = yield
         #footer
+          = render 'shares/footer'

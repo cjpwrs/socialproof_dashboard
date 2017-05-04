@@ -69,5 +69,5 @@ nav.navbar.navbar-default.main-navbar
             a href="#{root_path}" 
               | Dashboard
           li
-            a href="#{new_subscription_path}" 
+            a href="#{ (user_signed_in? && current_user.is_subscripted?) ? subscription_path(current_user.lastest_subscription) : new_subscription_path }" 
               | Billing
