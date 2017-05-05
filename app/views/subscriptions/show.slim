@@ -1,5 +1,5 @@
 .container
-  h1 Your Subsription
+  h1 Your Subscription
   - if @strip_subscription_json.present? && @card.present?
     - plan = @strip_subscription_json.items.data.first.plan
     dl.dl-horizontal
