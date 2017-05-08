@@ -1,10 +1,22 @@
 $(function() {
+  initRegistrationValidate();
+
+  $('#register_new_user').bind('ajax:success', function(evt, data, status, xhr) {
+    //function called on status: 200 (for ex.)
+    console.log('success');
+  }).bind("ajax:error", function(evt, xhr, status, error) {
+    //function called on status: 401 or 500 (for ex.)
+    console.log(xhr.responseText);
+  });
+});
+
+function initRegistrationValidate() {
+  if($("#register_new_user").length == 0){
+    return false;
+  }
+
   $("#register_new_user").validate();
-  // $("#new_user").validate({
-  //   submitHandler: function(form) {
-  //     form.submit();
-  //   }
-  // });
+
   $('#user_email').rules('add', {
     required: true,
     email: true,
@@ -47,4 +59,4 @@ $(function() {
       equalTo: "Please enter the same password as above"
     }
   });
-});
+};
