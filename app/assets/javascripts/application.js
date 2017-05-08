@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-validate/jquery.validate
+//= require jquery-validate/additional-methods
 
 //= require bootstrap-sprockets
 //= require subscriptions/new
+//= require devise/devise

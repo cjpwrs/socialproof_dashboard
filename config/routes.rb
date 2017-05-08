@@ -4,4 +4,10 @@ Rails.application.routes.draw do
 
   root 'home#index'
   resources :subscriptions
+
+  resources :users, only: [] do
+    collection do
+      get 'validation_email'
+    end
+  end
 end
