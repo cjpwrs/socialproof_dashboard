@@ -1,5 +1,5 @@
 $(function() {
-  Stripe.setPublishableKey("pk_test_OfdmQReUz0BqhqUjAuMK4x7F");
+  Stripe.setPublishableKey( $('meta[name="stripe-key"]').attr('content') );
   stripe_initialize();
 });
 

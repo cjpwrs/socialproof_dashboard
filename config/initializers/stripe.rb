@@ -1,5 +1,5 @@
 Rails.configuration.stripe = {
-  publishable_key: 'pk_live_kdM4GbkXa4u7zN4f7yYXNN0I',
-  secret_key: 'sk_live_m3spO3Gci6g5eGDVSUtxv2cn'
+  publishable_key: ENV['STRIPE_PUB_KEY'],
+  secret_key: ENV['STRIPE_KEY']
 }
-Stripe.api_key = 'sk_live_m3spO3Gci6g5eGDVSUtxv2cn'
+Stripe.api_key = ENV['STRIPE_KEY']
