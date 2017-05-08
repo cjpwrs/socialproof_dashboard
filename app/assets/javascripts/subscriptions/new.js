@@ -23,7 +23,7 @@ function stripeResponseHandler(status, response) {
     $('#subscription_stripe_card_token').val(response.id);
     $form.get(0).submit();
   } else {
-    $('input[type=submit]').attr('disabled', false)
+    window.location.replace("/subscriptions/new");
     return alert(response.error.message);
   }
 };

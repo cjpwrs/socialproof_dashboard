@@ -5,6 +5,7 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
     @stripe_list = Stripe::Plan.all
     @plans = @stripe_list[:data].map{ |plan| [plan[:name] + ' - ' +  (plan[:amount].to_f/100).to_s + '/month', plan[:id]]}
+    super
   end
 
   def create

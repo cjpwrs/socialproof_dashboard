@@ -1,4 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  def new
+    @subscription = Subscription.new
+    @stripe_list = Stripe::Plan.all
+    @plans = @stripe_list[:data].map{ |plan| [plan[:name] + ' - ' +  (plan[:amount].to_f/100).to_s + '/month', plan[:id]]}
+    super
+  end
+
   def create
     build_resource sign_up_params
     if resource.save
