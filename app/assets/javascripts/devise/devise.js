@@ -1,5 +1,5 @@
 $(function() {
-  $("#new_user").validate();
+  $("#register_new_user").validate();
   // $("#new_user").validate({
   //   submitHandler: function(form) {
   //     form.submit();
