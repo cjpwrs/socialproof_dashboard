@@ -16,7 +16,8 @@ class SubscriptionsController < ApplicationController
                   :source => subscriptions_params['stripe_card_token'],
                   :email => "#{current_user.email}"
                 )
-    stripe_subscription = customer.subscriptions.create(:plan => plan.id)
+    coupon = (plan.name == ENV['PLAN_TO_DISCOUNT']) ? ENV['COUPON_ID'] : nil
+    stripe_subscription = customer.subscriptions.create(plan: plan.id, coupon: coupon)
 
     @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id)
     if @subscription.save
