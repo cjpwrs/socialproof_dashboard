@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
-  
+
   def new
     @subscription = Subscription.new
     @stripe_list = Stripe::Plan.all

@@ -2,7 +2,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def new
     @subscription = Subscription.new
     @stripe_list = Stripe::Plan.all
-    @plans = @stripe_list[:data].map{ |plan| [plan[:name] + ' - ' +  (plan[:amount].to_f/100).to_s + '/month', plan[:id]]}
+    @plans = @stripe_list[:data].map{ |plan|
+       if plan[:name] == 'STARTER'
+        [plan[:name] + ' - ' +  '$9 for 30 days. After 30 days, $24/month', plan[:id]]
+       else
+        [plan[:name] + ' - ' +  (plan[:amount].to_f/100).to_s + '/month', plan[:id]]
+        end
+    }
     super
   end
 
@@ -23,7 +29,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       return render :json => {:success => false}
     end
   end
- 
+
   def sign_up(resource_name, resource)
     sign_in(resource_name, resource)
   end
