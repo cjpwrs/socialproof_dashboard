@@ -10,6 +10,6 @@
       dt Payment Details
       dd= "Card ending in " + @card.first.last4
       dt Upcoming Payment
-      dd= Time.at(@strip_subscription_json.current_period_start).strftime("%b/%d/%Y") + " #{(plan.amount.to_f/100).to_s}"
+      dd= Time.at(@strip_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{(plan.amount.to_f/100).to_s}"
   - else
     p Cannot get your card or subscription
