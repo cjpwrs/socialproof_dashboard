@@ -6,7 +6,7 @@
       dt Your Plan
       dd= plan.name
       dt Billing Cycle
-      dd= plan.interval
+      dd= ((plan.interval == 'month') ? 'monthly' : plan.interval).capitalize
       dt Payment Details
       dd= "Card ending in " + @card.first.last4
       dt Upcoming Payment
