@@ -7,7 +7,7 @@ nav.navbar.navbar-default.header-navbar
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand href="#{root_path}" 
+      a.navbar-brand href="#{dashboard_path}" 
         img alt="Brand" src="https://cdn.filestackcontent.com/jzrG0omRQoOARmK9Dlag"
 
     /! Collect the nav links, forms, and other content for toggling
@@ -66,7 +66,7 @@ nav.navbar.navbar-default.main-navbar
       #bs-example-navbar-collapse-1.collapse.navbar-collapse
         ul.nav.navbar-nav
           li.active
-            a href="#{root_path}" 
+            a href="#{dashboard_path}" 
               | Dashboard
           li
             a href="#{ (user_signed_in? && current_user.is_subscripted?) ? subscription_path(current_user.lastest_subscription) : new_subscription_path }" 
