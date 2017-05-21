@@ -1,0 +1,42 @@
+.index-first-section {
+  position: relative;
+  color: #fff;
+  height: 90vh;
+  background-image: url(/images/ang-325.5387f463.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  .modal {
+    h4, #myModalLabel, .modal-footer {
+      color: #3e3e3e;
+    }
+    h4 {
+      margin-bottom: 35px;
+    }
+    .modal-footer {
+      border: none;
+    }
+  }
+
+  form {
+    input.form-control {
+      padding: 25px 15px;
+    }
+
+    input.btn {
+      font-size: 20px;
+      padding: 10px 30px;
+    }
+  }
+
+  .modal-header {
+    border: none;
+    text-transform: uppercase;
+  }
+
+  .modal-content {
+    padding: 10px 35px;
+  }
+}

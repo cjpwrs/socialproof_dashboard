@@ -16,7 +16,13 @@
 @import "bootstrap";
 @import "font-awesome";
 
+@import "home/index";
 @import "shares/header";
+@import "reponsive";
+
+body {
+  font-family: 'Montserrat', sans-serif !important;
+}
 
 .panel-without-border {
   border-radius: 0;

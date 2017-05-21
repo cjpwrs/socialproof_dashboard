@@ -1,3 +1,25 @@
+.index-header-navbar {
+  margin-bottom: 0;
+  min-height: 70px;
+  background-color: white;
+  border: none;
+  border-radius: 0;
+
+  .navbar-brand {
+    height: 70px;
+    width: 350px;
+
+    img {
+      width: 100%
+    }
+  }
+
+  .navbar-nav > li > a {
+    font-size: 20px;
+    line-height: 20px;
+  }
+}
+
 .header-navbar {
   margin-bottom: 0;
   background-color: black;
@@ -14,5 +36,4 @@
 }
 
 .main-navbar {
-  
 }

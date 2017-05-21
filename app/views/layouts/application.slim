@@ -7,7 +7,7 @@ html
     = tag :meta, name: "stripe-key", content: ENV['STRIPE_PUB_KEY']
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
-    link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'
+    link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700,800' rel='stylesheet' type='text/css'
     script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"
     script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"
     script src="https://js.stripe.com/v2/"
@@ -74,7 +74,10 @@ html
     .container-fluid
       .row
         #header
-          = render 'shares/header'
+          - if user_signed_in?
+            = render 'shares/header'
+          - else
+            = render 'shares/index_header'
           .container
             - if flash[:notice]
               .alert.alert-info= notice
@@ -83,4 +86,7 @@ html
         #main-container
           = yield
         #footer
-          = render 'shares/footer'
+          - if user_signed_in?
+            = render 'shares/footer'
+          - else
+            = render 'shares/index_footer'
