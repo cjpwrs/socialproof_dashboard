@@ -1,37 +1,37 @@
 .container-fluid
   .index-first-section.row
+    .first-section-layer
     .container
-      h1 
-        | GROW YOUR
-        br
-        | INSTAGRAM.
-      h2 
-        | Let us help you gain thousands of
-        br
-        | REAL, TARGETED, ENGAGED
-        br
-        | followers every month!
-      /! Button trigger modal
-      button.btn.btn-success.btn-lg data-target="#signUp" data-toggle="modal" type="button" 
-        | Start 30 day trial for $9
-      /! Modal
-      #signUp.modal.fade aria-labelledby="myModalLabel" role="dialog" tabindex="-1" 
-        .modal-dialog role="document" 
-          .modal-content
-            .modal-header
-              button.close aria-label="Close" data-dismiss="modal" type="button" 
-                span aria-hidden="true"  &times;
-              h2#myModalLabel.modal-title Sign Up
-            .modal-body
-              h4
-                | Fill out the following fields below to jumpstart your 
-                span.text-success trial!
-              = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: 'register_new_user' }) do |f|
-                = devise_error_messages!
-                = f.input :email, placeholder: 'Email', label: false
-                = f.input :password, placeholder: 'Password', label: false
-                = f.input :password_confirmation, placeholder: 'Password confirm', label: false
-                = f.button :submit, 'Start now', class: 'btn btn-success'
-            .modal-footer
-              p.text-left By signing up, you agree to theTerms of Service
+      .first-section-main-content
+        h1.main-title
+          | GROW YOUR
+          br
+          | INSTAGRAM.
+        h2.secondary-title
+          | Let us help you gain thousands of
+          br
+          | REAL, TARGETED, ENGAGED
+          br
+          | followers every month!
+        button.btn.btn-success.btn-lg data-target="#signUp" data-toggle="modal" type="button" 
+          | Start 30 day trial for $9
+        #signUp.modal.fade aria-labelledby="myModalLabel" role="dialog" tabindex="-1" 
+          .modal-dialog role="document" 
+            .modal-content
+              .modal-header
+                button.close aria-label="Close" data-dismiss="modal" type="button" 
+                  span aria-hidden="true"  &times;
+                h2#myModalLabel.modal-title Sign Up
+              .modal-body
+                h4
+                  | Fill out the following fields below to jumpstart your 
+                  span.text-success trial!
+                = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: 'index_register_new_user' }) do |f|
+                  = devise_error_messages!
+                  = f.input :email, placeholder: 'Email', label: false
+                  = f.input :password, placeholder: 'Password', label: false
+                  = f.input :password_confirmation, placeholder: 'Password confirm', label: false
+                  = f.button :submit, 'Start now', class: 'btn btn-success'
+              .modal-footer
+                p.text-left By signing up, you agree to theTerms of Service
 
