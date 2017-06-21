@@ -11,10 +11,9 @@ $(function() {
     if($('#new_subscription').length > 0){
       $('#new_subscription').submit();
     }else{
-      console.log('need redirect to welcome page');
+      window.location.href = '/welcome';
     }
   }).bind("ajax:error", function(evt, xhr, status, error) {
-    console.log(xhr.responseText);
     $("#sign-up-and-subscription").attr("disabled", false);
   });
 

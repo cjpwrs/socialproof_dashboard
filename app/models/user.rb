@@ -6,14 +6,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :subscriptions
 
-  attr_accessor :is_over_18
+  attr_accessor :is_over_18, :instagram_account, :instagram_password
 
   validate :user_is_over_18
 
   before_save :generate_stim_token
 
   def generate_stim_token
-    url = URI.parse('https://stimsocial.com/index.php?route=api/login&key=ADimqAOHfQaKhXK4uSIIOOR4DlsHOJw7v2W5FtekF1Lexsnaq6Uxgqf1bpn7h6idmV7R62rw1QuplgEAo6UbZaTNsZUPlkgDb2w8jeTtELDVlU0yDNpeDP4C0pa5uLTG2VpwNMmpQ1aTeW45XGIpPoR7ZrLOPpe1BAFDoruzDKIUwJ6UG6wzxUye6yPyn0jEqOJ7MDPaxsZrUuW2Ro2Bi2HN2ltTlP6IfiXqqMKKEXVBNrRB6iROIV6LTrOEER7o')
+    url = URI.parse("https://stimsocial.com/index.php?route=api/login&key=#{ENV['STIM_API_KEY']}")
     stim_response = url.read
     return unless stim_response.present?
     stim_response = eval(stim_response)
