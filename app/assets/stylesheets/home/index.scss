@@ -17,7 +17,7 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 
-  .container {
+  .first-section-main-content {
     position: relative;
     height: 100%;
     display: -webkit-box;
@@ -75,9 +75,9 @@
   }
 
   h1.main-title {
-    font-size: 80px;
-    line-height: 100px;
-    font-weight: 700;
+    font-size: 56px;
+    line-height: 64px;
+    font-weight: 400;
   }
 
   h2.secondary-title {
@@ -85,5 +85,28 @@
     margin-bottom: 30px;
     font-size: 24px;
     line-height: 34px;
+  }
+
+  .openSignUpForm {
+    width: 360px;
+  }
+}
+
+.index-second-section {
+  padding-right: 5%;
+  padding-left: 5%;
+  text-align: center;
+
+  .second-section-main-column{
+    img {
+      width: 50%;
+    }
+  }
+
+  .custom-text {
+    line-height: 26px;
+    margin: auto;
+    font-size: 20px;
+    font-weight: 600;
   }
 }
