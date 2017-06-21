@@ -71,3 +71,7 @@ nav.navbar.navbar-default.main-navbar
           li
             a href="#{ (user_signed_in? && current_user.is_subscripted?) ? subscription_path(current_user.lastest_subscription) : new_subscription_path }" 
               | Billing
+        ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            li
+              = link_to 'Sign out', destroy_user_session_path, method: :delete

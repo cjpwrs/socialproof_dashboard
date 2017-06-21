@@ -8,7 +8,11 @@ $(function() {
   });
 
   $('#register_new_user').bind('ajax:success', function(evt, data, status, xhr) {
-    $('#new_subscription').submit();
+    if($('#new_subscription').length > 0){
+      $('#new_subscription').submit();
+    }else{
+      console.log('need redirect to welcome page');
+    }
   }).bind("ajax:error", function(evt, xhr, status, error) {
     console.log(xhr.responseText);
     $("#sign-up-and-subscription").attr("disabled", false);

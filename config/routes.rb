@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   get 'dashboard', controller: 'home', action: 'dashboard'
+  get 'welcome', controller: 'home', action: 'welcome'
   resources :subscriptions
 
   resources :users, only: [] do
