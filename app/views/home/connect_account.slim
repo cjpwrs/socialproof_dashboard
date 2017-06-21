@@ -4,6 +4,11 @@
       .col-sm-12
         h1 Congrats, you're almost done!
         p Before we can build your following, you need to securely connect your Instagram account.
+        -if @stim_response.present?
+          p.instagram-errors-wrap
+            -@stim_response[:errors].each do |key, value|
+              span.instagram-errors.text-danger= key.to_s.capitalize + ': '
+              span.instagram-errors.text-danger= value
         = simple_form_for current_user, :url => add_instagram_account_user_path(current_user), :method => :post do |f|
           = f.input :instagram_account, placeholder: 'Instagram Account', label: false
           = f.input :instagram_password, placeholder: 'Instagram Password', label: false

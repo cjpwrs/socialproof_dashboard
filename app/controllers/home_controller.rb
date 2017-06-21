@@ -9,5 +9,6 @@ class HomeController < ApplicationController
   end
 
   def connect_account
+    @stim_response = nil
   end
 end
