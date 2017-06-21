@@ -76,11 +76,11 @@ html
             = render 'shares/header'
           - else
             = render 'shares/index_header'
-          .container
-            - if flash[:notice]
-              .alert.alert-info= notice
-            - if flash[:alert]
-              .alert.alert-danger= alert
+          / .container
+          /   - if flash[:notice]
+          /     .alert.alert-info= notice
+          /   - if flash[:alert]
+          /     .alert.alert-danger= alert
         #main-container
           = yield
         #footer

@@ -7,9 +7,14 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'dashboard', controller: 'home', action: 'dashboard'
   get 'welcome', controller: 'home', action: 'welcome'
+  get 'connect-account', controller: 'home', action: 'connect_account'
   resources :subscriptions
 
   resources :users, only: [] do
+    member do
+      post 'add_instagram_account'
+    end
+
     collection do
       get 'validation_email'
     end
