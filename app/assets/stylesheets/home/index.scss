@@ -165,3 +165,88 @@
     font-weight: 600;
   }
 }
+
+.index-forth-section {
+  padding: 30px;
+  text-align: center;
+  h2 {
+    font-weight: 700;
+    font-size: 22px;
+  }
+
+  img {
+    width: 30%;
+    max-width: 100%;
+  }
+}
+
+.index-fifth-section {
+  padding: 30px 0;
+  text-align: center;
+
+  .fifth-section-content {
+    padding: 30px 0;
+    border-top: 1px solid #d2d2d2;
+  }
+
+  .custom-text {
+    line-height: 26px;
+    margin: auto;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  img {
+    width: 50%;
+  }
+
+  table.table-bordered {
+    margin-top: 30px;
+    border: 2px solid #494848;
+
+    ul.list {
+      text-align: left;
+
+      .green-bullet {  
+        color: #08a91c;
+      }
+
+      .line-through-bullet {
+        text-decoration: line-through;
+      }
+    }
+
+    .pricing-details{
+      border-top: 2px solid #494848;
+    }
+
+    tr:first-child { 
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .price {
+      margin-bottom: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .pro-plus-plan {
+      background-color: #08a91c;
+      color: #fff;
+    }
+
+    .bussiness-plan {
+      background-color: black;
+      color: #fff;
+    }
+  }
+
+  .pricing-card { 
+    cursor: pointer;
+    transition: all .4s ease-in-out; 
+  }
+  .pricing-card:hover { 
+    transform: scale(1.1); 
+  }
+}
