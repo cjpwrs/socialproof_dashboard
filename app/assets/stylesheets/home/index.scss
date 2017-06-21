@@ -63,6 +63,18 @@
       font-size: 20px;
       padding: 10px 30px;
     }
+
+    .user_is_over_18 {
+      margin-bottom: 30px;
+
+      label.error {
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        bottom: -15px;
+        left: 0px;
+      }
+    }
   }
 
   .modal-header {

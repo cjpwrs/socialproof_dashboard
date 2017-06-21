@@ -1,8 +1,10 @@
 $(function() {
   initRegistrationValidate();
   $( "#sign-up-and-subscription" ).bind( "click", function() {
-    $("#register_new_user").submit();
-    $("#sign-up-and-subscription").attr("disabled", true);
+    if($("#register_new_user").valid() === true){
+      $("#register_new_user").submit();
+      $("#sign-up-and-subscription").attr("disabled", true);
+    }
   });
 
   $('#register_new_user').bind('ajax:success', function(evt, data, status, xhr) {
@@ -61,6 +63,13 @@ function initRegistrationValidate() {
       required: "Please confirm password",
       minlength: "Cofirm password must be at least 6 characters",
       equalTo: "Please enter the same password as above"
+    }
+  });
+
+  $('#user_is_over_18').rules('add', {
+    required: true,
+    messages: {
+      required: "You have to over 18"
     }
   });
 };
