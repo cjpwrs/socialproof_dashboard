@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   get 'dashboard', controller: 'home', action: 'dashboard'
   get 'welcome', controller: 'home', action: 'welcome'
   get 'connect-account', controller: 'home', action: 'connect_account'
-  resources :subscriptions
+  resources :subscriptions do
+    member do
+      post 'cancel'
+    end
+  end
 
   resources :users, only: [] do
     member do

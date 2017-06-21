@@ -12,7 +12,7 @@
         = simple_form_for current_user, :url => add_instagram_account_user_path(current_user), :method => :post do |f|
           = f.input :instagram_account, placeholder: 'Instagram Account', label: false
           = f.input :instagram_password, placeholder: 'Instagram Password', label: false
-          = f.button :submit, 'Add Account', class: 'btn btn-success', id: 'sign-up-and-subscription'
+          = f.button :submit, 'Add Account', class: 'btn btn-success'
         br
         small Your account security is very important to us!
         br

@@ -19,7 +19,7 @@ class SubscriptionsController < ApplicationController
     coupon = (plan.name == ENV['PLAN_TO_DISCOUNT']) ? ENV['COUPON_ID'] : nil
     stripe_subscription = customer.subscriptions.create(plan: plan.id, coupon: coupon)
 
-    @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id)
+    @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id, status: stripe_subscription.status)
     if @subscription.save
       redirect_to @subscription
     else
@@ -33,7 +33,19 @@ class SubscriptionsController < ApplicationController
   def show
     @subscription = get_subscription
     @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
-    @card = Stripe::Customer.retrieve(@strip_subscription_json.customer).sources.data
+    if @strip_subscription_json.status == 'canceled'
+      redirect_to new_subscription_path
+    else
+      @card = Stripe::Customer.retrieve(@strip_subscription_json.customer).sources.data
+    end
+  end
+
+  def cancel
+    subscription = current_user.subscriptions.order(id: :asc).where(id: subscription_id).first
+    strip_subscription = Stripe::Subscription.retrieve(subscription.stripe_subscription_id)
+    strip_subscription.delete(:at_period_end => false)
+    subscription.update_attibutes(status: strip_subscription.status)
+    redirect_to new_subscription_path
   end
 
   private

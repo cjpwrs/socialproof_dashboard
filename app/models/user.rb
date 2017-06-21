@@ -27,7 +27,11 @@ class User < ApplicationRecord
   end
 
   def is_subscripted?
-    self.subscriptions.any?
+    if self.subscriptions.any? && self.subscriptions.order(id: :asc).last.status == 'active'
+      return true
+    else
+      return false
+    end
   end
 
   def lastest_subscription
