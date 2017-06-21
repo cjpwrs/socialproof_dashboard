@@ -250,3 +250,45 @@
     transform: scale(1.1); 
   }
 }
+
+.index-sixth-section {
+  padding: 30px;
+  color: white;
+  background-color: black;
+  text-align: center;
+
+  .btn {
+    margin-top: 15px;
+    background-color: #08a91c;
+    color: #fff;
+    height: 50px;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 25px;
+    font-size: 18px;
+    border: none;
+  }
+}
+
+.index-seventh-section {
+  padding-bottom: 30px;
+  text-align: center;
+
+  h1 {
+    font-size: 9vw;
+    margin-bottom: 20px;
+  }
+
+  span.fa {
+    font-size: 30px;
+    margin: 0 10px;
+    color: #000;
+  }
+
+  .disclaimer-text {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+  }
+}
