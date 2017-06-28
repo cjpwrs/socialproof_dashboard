@@ -10,7 +10,7 @@
       dt Payment Details
       dd= "Card ending in " + @card.first.last4
       dt Upcoming Payment
-      dd= Time.at(@strip_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{(plan.amount.to_f/100).to_s}"
+      dd= Time.at(@strip_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{number_to_currency((plan.amount.to_f/100))}"
     p
       = simple_form_for @subscription, url: cancel_subscription_path(@subscription), :method => :post do |f|
         = f.hidden_field :id

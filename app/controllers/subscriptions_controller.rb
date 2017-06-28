@@ -1,10 +1,26 @@
 class SubscriptionsController < ApplicationController
+  include ActionView::Helpers::NumberHelper
   before_action :authenticate_user!
 
   def new
     @subscription = Subscription.new
-    @stripe_list = Stripe::Plan.all
-    @plans = @stripe_list[:data].map{ |plan| [plan[:name] + ' - ' +  (plan[:amount].to_f/100).to_s + '/month', plan[:id]]}
+    @stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
+    @coupon = Stripe::Coupon.retrieve(ENV['COUPON_ID'])
+    discount = @coupon[:percent_off].to_f/100
+    @plans =
+      if current_user.subscriptions.count == 0
+        @stripe_list.map{ |plan|
+          price = plan[:amount].to_f/100
+          price_with_discount = price * (1.00 - discount)
+
+          [plan[:name] + ' - ' +  number_to_currency(price_with_discount, precision: 0) +
+          ' for 30 days. After 30 days, ' + number_to_currency(price, precision: 0) + '/month', plan[:id]]
+        }
+      else
+        @stripe_list.map{ |plan|
+          [plan[:name] + ' - ' +
+          number_to_currency((plan[:amount].to_f/100), precision: 0) + '/month', plan[:id]]}
+      end
   end
 
   def create
@@ -16,7 +32,7 @@ class SubscriptionsController < ApplicationController
                   :source => subscriptions_params['stripe_card_token'],
                   :email => "#{current_user.email}"
                 )
-    coupon = (plan.name == ENV['PLAN_TO_DISCOUNT']) ? ENV['COUPON_ID'] : nil
+    coupon = current_user.subscriptions.count == 0 ? ENV['COUPON_ID'] : nil
     stripe_subscription = customer.subscriptions.create(plan: plan.id, coupon: coupon)
 
     @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id, status: stripe_subscription.status)
@@ -44,7 +60,7 @@ class SubscriptionsController < ApplicationController
     subscription = current_user.subscriptions.order(id: :asc).where(id: subscription_id).first
     strip_subscription = Stripe::Subscription.retrieve(subscription.stripe_subscription_id)
     strip_subscription.delete(:at_period_end => false)
-    subscription.update_attibutes(status: strip_subscription.status)
+    subscription.update_attributes(status: strip_subscription.status)
     redirect_to new_subscription_path
   end
 
