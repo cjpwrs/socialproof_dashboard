@@ -1,15 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include ActionView::Helpers::NumberHelper
+  
   def new
     @subscription = Subscription.new
     @stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
-    puts @stripe_list.inspect
-    list = @stripe_list
-    puts list.inspect
     @coupon = Stripe::Coupon.retrieve(ENV['COUPON_ID'])
-    puts @coupon.inspect
     discount = @coupon[:percent_off].to_f/100
-    puts discount.inspect
     @plans = @stripe_list.map{ |plan|
       price = plan[:amount].to_f/100
       price_with_discount = price * (1.00 - discount)
@@ -17,7 +13,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       [plan[:name] + ' - ' +  number_to_currency(price_with_discount, precision: 0) +
       ' for 30 days. After 30 days, ' + number_to_currency(price, precision: 0) + '/month', plan[:id]]
     }
-    puts @plans.inspect
     super
   end
 
