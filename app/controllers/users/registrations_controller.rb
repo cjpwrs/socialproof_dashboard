@@ -1,14 +1,23 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  include ActionView::Helpers::NumberHelper
   def new
     @subscription = Subscription.new
-    @stripe_list = Stripe::Plan.all
-    @plans = @stripe_list[:data].map{ |plan|
-       if plan[:name] == 'STARTER'
-        [plan[:name] + ' - ' +  '$9 for 30 days. After 30 days, $24/month', plan[:id]]
-       else
-        [plan[:name] + ' - ' +  (plan[:amount].to_f/100).to_s + '/month', plan[:id]]
-        end
+    @stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
+    puts @stripe_list.inspect
+    list = @stripe_list
+    puts list.inspect
+    @coupon = Stripe::Coupon.retrieve(ENV['COUPON_ID'])
+    puts @coupon.inspect
+    discount = @coupon[:percent_off].to_f/100
+    puts discount.inspect
+    @plans = @stripe_list.map{ |plan|
+      price = plan[:amount].to_f/100
+      price_with_discount = price * (1.00 - discount)
+
+      [plan[:name] + ' - ' +  number_to_currency(price_with_discount, precision: 0) +
+      ' for 30 days. After 30 days, ' + number_to_currency(price, precision: 0) + '/month', plan[:id]]
     }
+    puts @plans.inspect
     super
   end
 
@@ -29,9 +38,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       respond_to do |format|
-        format.html { 
+        format.html {
           flash[:alert] = resource.errors.full_messages.to_sentence
-          redirect_to root_path 
+          redirect_to root_path
         }
         format.json { render json: {success: false} }
       end
