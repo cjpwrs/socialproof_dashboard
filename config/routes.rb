@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     collection do
       get 'validation_email'
       get 'account_info'
+      get 'growth_performance'
     end
   end
 end

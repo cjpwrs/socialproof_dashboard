@@ -16,6 +16,8 @@ var AccountInfo = React.createClass({
         authenticity_token: Functions.getMetaContent("csrf-token")
       },
       success: function(data) {
+        json_data = JSON.parse(data.response)
+        $('.instagram-username').text(json_data.data.Username);
         self.setState({ accountInfo: JSON.parse(data.response) });
       },
       error: function(xhr, status, error) {
@@ -24,11 +26,10 @@ var AccountInfo = React.createClass({
     });
   },
   render() {
-    debugger
     if (this.state.accountInfo.data != null){
       var image_url = this.state.accountInfo.data.MetaData.info.profile_pic_url
     }else{
-      var image_url = 'http://www.zachalbert.com/images/ruf-s2.png'
+      var image_url = 'https://cdn.dribbble.com/users/172906/screenshots/1185018/2013-08-04_21_14_41.gif'
     }
     return (
       <a href="#">

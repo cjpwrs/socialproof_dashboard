@@ -6,6 +6,13 @@
         .panel-heading Growth Performance
         .panel-body
           canvas#myChart height="240" width="400px"
+          - today = current_user.growth_performance[:data][30][:followers]
+          - day5 = current_user.growth_performance[:data][25][:followers]
+          - day10 = current_user.growth_performance[:data][20][:followers]
+          - day15 = current_user.growth_performance[:data][15][:followers]
+          - day20 = current_user.growth_performance[:data][10][:followers]
+          - day25 = current_user.growth_performance[:data][5][:followers]
+          - day30 = current_user.growth_performance[:data][0][:followers]
           javascript:
             var ctx = document.getElementById("myChart");
             var myChart = new Chart(ctx, {
@@ -32,7 +39,7 @@
                           pointHoverBorderWidth: 2,
                           pointRadius: 1,
                           pointHitRadius: 10,
-                          data: [65, 59, 80, 81, 56, 55, 40],
+                          data: [#{today}, #{day5}, #{day10}, #{day15}, #{day20}, #{day25}, #{day30}],
                           spanGaps: false,
                       }
                   ]
@@ -54,6 +61,10 @@
           .media
             = react_component 'AccountInfo', {}, {class: 'media-left media-middle'}
             .media-body
+              ul.list-inline
+                li
+                  h4 Username:
+                li.instagram-username
               ul.list-inline
                 li
                   h4 Plan:

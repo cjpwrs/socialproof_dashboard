@@ -6,11 +6,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :subscriptions
 
-  attr_accessor :is_over_18, :instagram_account, :instagram_password
+  attr_accessor :is_over_18, :instagram_account, :instagram_password, :growth_performance
 
   validate :user_is_over_18
 
   before_save :generate_stim_token
+  before_save :update_account_id
 
   def generate_stim_token
     url = URI.parse("https://stimsocial.com/index.php?route=api/login&key=#{ENV['STIM_API_KEY']}")
@@ -19,6 +20,12 @@ class User < ApplicationRecord
     stim_response = eval(stim_response)
     if stim_response[:success].present? && stim_response[:success] && stim_response[:token].present?
       self.stim_token = stim_response[:token]
+    end
+  end
+
+  def update_account_id
+    if self.stim_response.present? && self.stim_response['account_id'].present?
+      self.account_id = self.stim_response['account_id']
     end
   end
 
