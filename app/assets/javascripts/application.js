@@ -18,3 +18,7 @@
 //= require bootstrap-sprockets
 //= require subscriptions/new
 //= require devise/devise
+//= require react
+//= require react_ujs
+//= require components
+//= require functions
