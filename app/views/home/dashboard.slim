@@ -6,13 +6,15 @@
         .panel-heading Growth Performance
         .panel-body
           canvas#myChart height="240" width="400px"
-          - today = current_user.growth_performance[:data][30][:followers]
-          - day5 = current_user.growth_performance[:data][25][:followers]
-          - day10 = current_user.growth_performance[:data][20][:followers]
-          - day15 = current_user.growth_performance[:data][15][:followers]
-          - day20 = current_user.growth_performance[:data][10][:followers]
-          - day25 = current_user.growth_performance[:data][5][:followers]
-          - day30 = current_user.growth_performance[:data][0][:followers]
+          - if current_user.growth_performance.present?
+            - grow_data = current_user.growth_performance[:data]
+            - today = grow_data[30].present? ? grow_data[30][:followers] : 0
+            - day5 = grow_data[25].present? ? grow_data[25][:followers] : 0
+            - day10 = grow_data[20].present? ? grow_data[20][:followers] : 0
+            - day15 = grow_data[15].present? ? grow_data[15][:followers] : 0
+            - day20 = grow_data[10].present? ? grow_data[10][:followers] : 0
+            - day25 = grow_data[25].present? ? grow_data[25][:followers] : 0
+            - day30 = grow_data[0].present? ? grow_data[0][:followers] : 0
           javascript:
             var ctx = document.getElementById("myChart");
             var myChart = new Chart(ctx, {

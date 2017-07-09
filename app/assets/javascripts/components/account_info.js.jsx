@@ -1,7 +1,8 @@
 var AccountInfo = React.createClass({
   getInitialState: function() {
     return { 
-      accountInfo: []
+      accountInfo: [],
+      getInfo: false
     };
   },
   componentDidMount: function() {
@@ -16,9 +17,11 @@ var AccountInfo = React.createClass({
         authenticity_token: Functions.getMetaContent("csrf-token")
       },
       success: function(data) {
-        json_data = JSON.parse(data.response)
-        $('.instagram-username').text(json_data.data.Username);
-        self.setState({ accountInfo: JSON.parse(data.response) });
+        json_data = JSON.parse(data.response);
+        if(json_data.success){
+          $('.instagram-username').text(json_data.data.Username);
+        }
+        self.setState({ accountInfo: JSON.parse(data.response), getInfo: json_data.success});
       },
       error: function(xhr, status, error) {
         alert('Cannot get data from API: ', error);
@@ -26,7 +29,7 @@ var AccountInfo = React.createClass({
     });
   },
   render() {
-    if (this.state.accountInfo.data != null){
+    if (this.state.getInfo == true ){
       var image_url = this.state.accountInfo.data.MetaData.info.profile_pic_url
     }else{
       var image_url = 'https://cdn.dribbble.com/users/172906/screenshots/1185018/2013-08-04_21_14_41.gif'

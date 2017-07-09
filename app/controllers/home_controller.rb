@@ -8,7 +8,8 @@ class HomeController < ApplicationController
       stim_response = url.read
     end
     if stim_response.present?
-      current_user.growth_performance = eval(stim_response)
+      json = eval(stim_response)
+      current_user.growth_performance = eval(stim_response) if json[:success]
     end
 
   end
