@@ -38,6 +38,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def target_performance
+    if current_user && current_user.stim_token.present? && current_user.stim_response && current_user.stim_response['account_id'].present?
+      url = URI.parse("https://stimsocial.com/index.php?route=api/account/target/performance&token=#{current_user.stim_token}&account_id=#{current_user.stim_response['account_id']}")
+      stim_response = url.read
+    end
+    if stim_response.present?
+      return render json: {
+        response: stim_response
+      }.to_json(), status: 200
+    end
+  end
+
+  def top_engagers
+    if current_user && current_user.stim_token.present? && current_user.stim_response && current_user.stim_response['account_id'].present?
+      url = URI.parse("https://stimsocial.com/index.php?route=api/account/engager/top&token=#{current_user.stim_token}&account_id=#{current_user.stim_response['account_id']}")
+      stim_response = url.read
+    end
+    if stim_response.present?
+      return render json: {
+        response: stim_response
+      }.to_json(), status: 200
+    end
+  end
+
   private
   def email_params
     params[:user][:email]

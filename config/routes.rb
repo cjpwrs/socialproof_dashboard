@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       get 'validation_email'
       get 'account_info'
       get 'growth_performance'
+      get 'target_performance'
+      get 'top_engagers'
     end
   end
 end
