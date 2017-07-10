@@ -27,8 +27,8 @@ class UsersController < ApplicationController
   end
 
   def account_info
-    if current_user && current_user.stim_token.present? && current_user.stim_response && current_user.stim_response['account_id'].present?
-      url = URI.parse("https://stimsocial.com/index.php?route=api/account/info&token=#{current_user.stim_token}&account_id=#{current_user.stim_response['account_id']}")
+    if current_user && current_user.stim_token.present? && current_user.account_id.present?
+      url = URI.parse("https://stimsocial.com/index.php?route=api/account/info&token=#{current_user.stim_token}&account_id=#{current_user.account_id}")
       stim_response = url.read
     end
     if stim_response.present?
@@ -39,8 +39,8 @@ class UsersController < ApplicationController
   end
 
   def target_performance
-    if current_user && current_user.stim_token.present? && current_user.stim_response && current_user.stim_response['account_id'].present?
-      url = URI.parse("https://stimsocial.com/index.php?route=api/account/target/performance&token=#{current_user.stim_token}&account_id=#{current_user.stim_response['account_id']}")
+    if current_user && current_user.stim_token.present? && current_user.account_id.present?
+      url = URI.parse("https://stimsocial.com/index.php?route=api/account/target/performance&token=#{current_user.stim_token}&account_id=#{current_user.account_id}")
       stim_response = url.read
     end
     if stim_response.present?
@@ -51,8 +51,8 @@ class UsersController < ApplicationController
   end
 
   def top_engagers
-    if current_user && current_user.stim_token.present? && current_user.stim_response && current_user.stim_response['account_id'].present?
-      url = URI.parse("https://stimsocial.com/index.php?route=api/account/engager/top&token=#{current_user.stim_token}&account_id=#{current_user.stim_response['account_id']}")
+    if current_user && current_user.stim_token.present? && current_user.account_id.present?
+      url = URI.parse("https://stimsocial.com/index.php?route=api/account/engager/top&token=#{current_user.stim_token}&account_id=#{current_user.account_id}")
       stim_response = url.read
     end
     if stim_response.present?
