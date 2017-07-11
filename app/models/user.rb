@@ -23,6 +23,11 @@ class User < ApplicationRecord
     end
   end
 
+  def refresh_stim_token
+    generate_stim_token
+    save!
+  end
+
   def update_account_id
     if self.stim_response.present? && self.stim_response['account_id'].present?
       self.account_id = self.stim_response['account_id']

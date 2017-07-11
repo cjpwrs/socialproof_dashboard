@@ -26,12 +26,24 @@ class UsersController < ApplicationController
     end
   end
 
-  def account_info
+  def get_account_info
     if current_user && current_user.stim_token.present? && current_user.account_id.present?
       url = URI.parse("https://stimsocial.com/index.php?route=api/account/info&token=#{current_user.stim_token}&account_id=#{current_user.account_id}")
       stim_response = url.read
     end
+    stim_response
+  end
+
+  def account_info
+    stim_response = get_account_info
     if stim_response.present?
+      json = eval(stim_response)
+      if !json[:success]
+        current_user.refresh_stim_token
+        stim_response = get_account_info
+        json = eval(stim_response)
+      end
+
       return render json: {
         response: stim_response
       }.to_json(), status: 200
