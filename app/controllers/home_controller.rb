@@ -6,15 +6,15 @@ class HomeController < ApplicationController
     if current_user && current_user.account_id.present? && !current_user.stim_token.present?
       current_user.refresh_stim_token
     end
-    stim_response = get_growth_data
-    current_user.growth_performance = evaluate_response(stim_response)
+    if current_user && current_user.stim_token.present? && current_user.account_id.present?
+      stim_response = get_growth_data
+      current_user.growth_performance = evaluate_response(stim_response)
+    end
   end
 
   def get_growth_data
-    if current_user && current_user.stim_token.present? && current_user.account_id.present?
-      url = URI.parse("https://stimsocial.com/index.php?route=api/account/growth/performance&token=#{current_user.stim_token}&account_id=#{current_user.account_id}")
-      stim_response = url.read
-    end
+    url = URI.parse("https://stimsocial.com/index.php?route=api/account/growth/performance&token=#{current_user.stim_token}&account_id=#{current_user.account_id}")
+    stim_response = url.read
     stim_response
   end
 
