@@ -14,7 +14,12 @@ class User < ApplicationRecord
   before_save :update_account_id
 
   def generate_stim_token
-    url = URI.parse("https://stimsocial.com/index.php?route=api/login&key=#{ENV['STIM_API_KEY']}")
+    if self.stim_account == 'ridingjay'
+      api_key = ENV['JAY_STIM_API_KEY']
+    else
+      api_key = ENV['STIM_API_KEY']
+    end
+    url = URI.parse("https://stimsocial.com/index.php?route=api/login&key=#{api_key}")
     stim_response = url.read
     return unless stim_response.present?
     stim_response = eval(stim_response)
