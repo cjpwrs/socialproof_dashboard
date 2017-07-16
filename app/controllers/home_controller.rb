@@ -8,7 +8,11 @@ class HomeController < ApplicationController
     end
     if current_user && current_user.stim_token.present? && current_user.account_id.present?
       stim_response = get_growth_data
-      current_user.growth_performance = evaluate_response(stim_response)
+      growth_performance = evaluate_response(stim_response)[:data]
+      if growth_performance.count > 31
+        growth_performance = growth_performance.select { |day| day[:followers] != 0 }
+      end
+      current_user.growth_performance = (growth_performance).sort_by { |day| day[:date] }.reverse!
     end
   end
 
