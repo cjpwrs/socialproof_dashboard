@@ -11,10 +11,48 @@ class UsersController < ApplicationController
       @stim_response = eval(stim_response)
       if @stim_response[:success].present? && @stim_response[:success]
         current_user.stim_response = @stim_response
+        current_user.account_id = @stim_response[:account_id]
+        current_user.user_name = account
+        current_user.stim_account = 'lanenash'
         current_user.save
         return redirect_to new_subscription_path
       elsif @stim_response[:success] == false && @stim_response[:errors].present?
-        return render 'home/connect_account'
+        errors = @stim_response[:errors]
+        if errors[:needs_verification].present?
+          session[:instagram_account] = account
+          session[:instagram_code] = password
+          @stim_response = nil
+          return render 'home/verify_account'
+        else
+          return render 'home/connect_account'
+        end
+      end
+    end
+  end
+
+  def verify_instagram_account
+    if current_user.stim_token.present?
+      account =  session[:instagram_account]
+      password =  session[:instagram_code]
+
+      url = URI.parse("https://stimsocial.com/index.php?route=api/instagram/insert&token=#{current_user.stim_token}&username=#{account}&password=#{password}")
+      stim_response = url.read
+      return unless stim_response.present?
+      @stim_response = eval(stim_response)
+      if @stim_response[:success].present? && @stim_response[:success]
+        current_user.stim_response = @stim_response
+        current_user.account_id = @stim_response[:account_id]
+        current_user.user_name = account
+        current_user.stim_account = 'lanenash'
+        current_user.save
+        return redirect_to new_subscription_path
+      elsif @stim_response[:success] == false && @stim_response[:errors].present?
+        errors = @stim_response[:errors]
+        if errors[:exists].present?
+          return redirect_to new_subscription_path
+        else
+          return render 'home/verify_account'
+        end
       end
     end
   end

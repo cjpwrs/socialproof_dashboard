@@ -41,4 +41,8 @@ class HomeController < ApplicationController
   def connect_account
     @stim_response = nil
   end
+
+  def verify_account
+    @stim_response = nil
+  end
 end

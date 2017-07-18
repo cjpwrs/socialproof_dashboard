@@ -1,0 +1,34 @@
+.container-fluid.welcome-page
+  .container
+    .row.first-row
+      .col-sm-12
+        h1 Thanks For Connecting Your Account
+        .col-sm-11
+          .col-sm-offset-1
+            p Now that you've successfully connected your account, Instagram needs to securely verify the connection.
+        br
+        .col-sm-11
+          .col-sm-offset-1
+            p Return to your Instagram app or website</span>, you should see one of these options. (This may take up to 1 minute to show up)
+        br
+        br
+        .col-sm-6
+          = image_tag "/assets/was-this-you.png"
+          .col-sm-11
+            .col-sm-offset-1
+              p If presented with these options, select "It Was Me"
+        .col-sm-6
+          = image_tag "/assets/verify-your-account.png"
+          .col-sm-11
+            .col-sm-offset-1
+              p If presented with these options, select your preference and then follow Instagram's verification process.
+
+        -if @stim_response.present?
+          p.instagram-errors-wrap
+            -@stim_response[:errors].each do |key, value|
+              span.instagram-errors.text-danger= key.to_s.capitalize + ': '
+              span.instagram-errors.text-danger= value
+        = simple_form_for current_user, :url => verify_instagram_account_user_path(current_user), :method => :post do |f|
+          = f.button :submit, 'Verify Account', class: 'btn btn-success'      
+
+= render 'shares/security_certification'

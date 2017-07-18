@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'dashboard', controller: 'home', action: 'dashboard'
   get 'welcome', controller: 'home', action: 'welcome'
   get 'connect-account', controller: 'home', action: 'connect_account'
+  get 'verify-account', controller: 'home', action: 'verify_account'
   resources :subscriptions do
     member do
       post 'cancel'
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     member do
       post 'add_instagram_account'
+      post 'verify_instagram_account'
     end
 
     collection do

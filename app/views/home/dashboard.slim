@@ -9,12 +9,12 @@
           - if current_user.growth_performance.present?
             - grow_data = current_user.growth_performance
             - today = grow_data[0].present? ? grow_data[0][:followers] : 0
-            - day5 = grow_data[5].present? ? grow_data[5][:followers] : 0
-            - day10 = grow_data[10].present? ? grow_data[10][:followers] : 0
-            - day15 = grow_data[15].present? ? grow_data[15][:followers] : 0
-            - day20 = grow_data[20].present? ? grow_data[20][:followers] : 0
-            - day25 = grow_data[25].present? ? grow_data[25][:followers] : 0
-            - day30 = grow_data[30].present? ? grow_data[30][:followers] : 0
+            - day5 = grow_data[4].present? ? grow_data[4][:followers] : 0
+            - day10 = grow_data[9].present? ? grow_data[9][:followers] : 0
+            - day15 = grow_data[14].present? ? grow_data[14][:followers] : 0
+            - day20 = grow_data[19].present? ? grow_data[19][:followers] : 0
+            - day25 = grow_data[24].present? ? grow_data[24][:followers] : 0
+            - day30 = grow_data[29].present? ? grow_data[29][:followers] : 0
           javascript:
             var ctx = document.getElementById("myChart");
             var myChart = new Chart(ctx, {
