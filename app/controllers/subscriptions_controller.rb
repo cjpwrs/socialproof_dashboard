@@ -6,12 +6,12 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
     @stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
     @coupon = Stripe::Coupon.retrieve(ENV['COUPON_ID'])
-    discount = @coupon[:percent_off].to_f/100
+    discount = @coupon[:amount_off].to_f/100
     @plans =
       if current_user.subscriptions.count == 0
         @stripe_list.map{ |plan|
           price = plan[:amount].to_f/100
-          price_with_discount = price * (1.00 - discount)
+          price_with_discount = price - discount
 
           [plan[:name] + ' - ' +  number_to_currency(price_with_discount, precision: 0) +
           ' for 30 days. After 30 days, ' + number_to_currency(price, precision: 0) + '/month', plan[:id]]
