@@ -1,21 +1,19 @@
 .container-fluid.welcome-page
   .container
-    .row.first-row
-      .col-sm-12
-        h1 Welcome To SOCIALPROOF
-        p 
-          | *To Successfully increase your following, your (human) account manager will target new followers by picking other Instagram accounts most similar to yours.
-
-        p SocialProof will find new followers for you by liking posts and following/unfollowing people who interact with these accounts.
-
-        p Before we can build your following, you need to securely connect your Instagram account.
-        p 
-         | *On your mobile device or web browser, log in to the Instagram account that you would like to connect.
-
-        p.confirm-instagram-login
-          input type="checkbox" class="checkbox" name="checkbox" value="on"
-          span Yes, I have logged in on my mobile device or web browser.
-        p.continue-wrap
-          a.btn.btn-success.btn-continue href="#{connect_account_path}" CONTINUE
+    .col-sm-12
+      h1 Welcome To SOCIALPROOF
+      h4.list-header Your account manager will: 
+      ul.process-list
+        li Follow accounts that have interest in what your posting!
+        li Unfollow all accounts that we follow for you
+        li Auto like pictures to increase engagement
+      p.login-reminder On your mobile device or web browser, log in to the Instagram account that you would like to connect.
+      br
+        
+      p.confirm-instagram-login
+        input type="checkbox" class="checkbox" name="checkbox" value="on"
+        span Yes, I have logged in.
+      p.continue-wrap
+        a.btn.btn-success.btn-continue href="#{connect_account_path}" CONTINUE
 
 = render 'shares/security_certification'

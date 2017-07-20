@@ -29,6 +29,24 @@
     margin-top: 20px;
   }
 
+  .login-reminder {
+    width: 50%;
+    margin: auto;
+    margin-top: 50px;
+  }
+
+  .list-header {
+    font-weight: 600;
+  }
+
+  .process-list {
+    font-size: 16px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .btn-continue {
     padding: 10px 30px;
     font-size: 30px;
@@ -61,5 +79,11 @@
 
   .instagram-errors {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 768px){
+  .login-reminder {
+    width: 80% !important;
   }
 }

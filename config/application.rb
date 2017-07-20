@@ -18,7 +18,7 @@ module SocialProof
                                             currency: "USD",
                                             remarketing_only: false }
 
-      handler :facebook_pixel, { id: '1639920136289212' }
+      handler :facebook_pixel, { id: '255880641501778' }
     end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
