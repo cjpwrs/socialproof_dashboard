@@ -37,6 +37,10 @@ class SubscriptionsController < ApplicationController
 
     @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id, status: stripe_subscription.status)
     if @subscription.save
+      tracker do |t|
+        t.google_adwords_conversion :conversion, { label: 'zAPvCNHs7XAQ0tvHmAM' }
+        t.facebook_pixel :track, { type: 'Purchase', options: { value: 247.35, currency: 'USD' } }
+      end
       redirect_to @subscription
     else
       render :new_subscription

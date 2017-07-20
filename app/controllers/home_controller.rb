@@ -36,6 +36,10 @@ class HomeController < ApplicationController
   end
 
   def welcome
+    tracker do |t|
+      t.google_adwords_conversion :conversion, {}
+      t.facebook_pixel :track, { type: 'Lead', options: { value: 10.00, currency: 'USD' } }
+    end
   end
 
   def connect_account
