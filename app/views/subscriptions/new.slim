@@ -1,5 +1,50 @@
 .container
   h1 Choose your plan
+  -if current_user.subscriptions.count == 0
+    .col-sm-12
+      .col-sm-3.fifth-section-main-column.pricing-card
+        table.table.table-bordered
+          tbody.centered
+            tr
+              td.price-title STARTER
+            tr.pricing-details
+              td
+                p.prices $34
+                span.price-actual $14
+                p 1x Speed
+      .col-sm-3.fifth-section-main-column.pricing-card
+        table.table.table-bordered
+          tbody.centered
+            tr
+              td.price-title PRO
+            tr.pricing-details
+              td
+                p.prices $44
+                span.price-actual $24
+                p 1.5x Speed
+      .col-sm-3.fifth-section-main-column.pricing-card
+        table.table.table-bordered
+          tbody.centered
+            tr
+              td.price-title PRO+
+            tr.pricing-details
+              td
+                p.prices $54
+                span.price-actual $34
+                p 2x Speed
+      .col-sm-3.fifth-section-main-column.pricing-card
+        table.table.table-bordered
+          tbody.centered
+            tr
+              td.price-title BUSINESS
+            tr.pricing-details
+              td
+                p.prices $74
+                span.price-actual $54
+                p 2x Speed
+
+
+
   = simple_form_for @subscription do |f|
     = f.hidden_field :stripe_card_token
     = f.hidden_field :email, input_html: { value: "#{current_user.email}" }
