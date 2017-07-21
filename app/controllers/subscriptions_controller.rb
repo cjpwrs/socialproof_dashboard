@@ -5,12 +5,12 @@ class SubscriptionsController < ApplicationController
   def new
     @subscription = Subscription.new
     @stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
-    @coupon = Stripe::Coupon.retrieve(ENV['COUPON_ID'])
-    discount = @coupon[:amount_off].to_f/100
     @plans =
       if current_user.subscriptions.count == 0
         @stripe_list.map{ |plan|
           price = plan[:amount].to_f/100
+          coupon = Stripe::Coupon.retrieve(coupon_finder(plan))
+          discount = coupon[:amount_off].to_f/100
           price_with_discount = price - discount
 
           [plan[:name] + ' - ' +  number_to_currency(price_with_discount, precision: 0) +
@@ -23,6 +23,16 @@ class SubscriptionsController < ApplicationController
       end
   end
 
+  def coupon_finder(plan)
+    if plan.name == 'BUSINESS'
+      ENV['BUSINESS_COUPON']
+    elsif plan.name == 'PRO+'
+      ENV['PRO_COUPON']
+    else
+      ENV['STARTER_COUPON']
+    end
+  end
+
   def create
     plan_id = subscriptions_params['plan']
     plan = Stripe::Plan.retrieve(plan_id)
@@ -32,7 +42,7 @@ class SubscriptionsController < ApplicationController
                   :source => subscriptions_params['stripe_card_token'],
                   :email => "#{current_user.email}"
                 )
-    coupon = current_user.subscriptions.count == 0 ? ENV['COUPON_ID'] : nil
+    coupon = current_user.subscriptions.count == 0 ? coupon_finder(plan) : nil
     stripe_subscription = customer.subscriptions.create(plan: plan.id, coupon: coupon)
 
     @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id, status: stripe_subscription.status)
