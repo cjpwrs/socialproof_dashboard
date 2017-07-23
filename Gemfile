@@ -46,6 +46,7 @@ gem 'simple_form'
 gem "react-rails"
 gem 'rest-client'
 gem 'rack-tracker'
+gem 'activeadmin'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
