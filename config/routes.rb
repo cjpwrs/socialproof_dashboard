@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :subscriptions do
     member do
       post 'cancel'
+      get 'upgrade_plan'
+      post 'upgrade'
     end
   end
 
