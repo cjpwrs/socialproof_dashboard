@@ -93,23 +93,15 @@ class SubscriptionsController < ApplicationController
   end
 
   def upgrade
+
     plan_id = subscriptions_params['plan']
     plan = Stripe::Plan.retrieve(plan_id)
     subscription = get_subscription
-    strip_subscription_json = Stripe::Subscription.retrieve subscription.stripe_subscription_id
-    customer = Stripe::Customer.retrieve(strip_subscription_json.customer)
-    coupon = current_user.subscriptions.count == 0 ? coupon_finder(plan) : nil
-
-    stripe_subscription = customer.subscriptions.create(plan: plan.id, coupon: coupon)
-
-    @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id, status: stripe_subscription.status)
-    if @subscription.save
-      tracker do |t|
-        t.google_adwords_conversion :conversion, { label: 'zAPvCNHs7XAQ0tvHmAM' }
-        t.facebook_pixel :track, { type: 'Purchase', options: { value: 247.35, currency: 'USD' } }
-      end
-      cancel_subscription
-      redirect_to @subscription
+    strip_subscription = Stripe::Subscription.retrieve(subscription.stripe_subscription_id)
+    strip_subscription.plan = plan.id
+    strip_subscription.save
+    if strip_subscription.status == 'active'
+      redirect_to subscription
     else
       render :upgrade_plan
     end
