@@ -4,6 +4,9 @@ class HomeController < ApplicationController
   end
 
   def dashboard
+    @current_user = current_user
+    @hours_since_creation = (DateTime.now - DateTime.parse((current_user.created_at).to_s)).to_i
+
     if current_user && current_user.account_id.present? && !current_user.stim_token.present?
       current_user.refresh_stim_token
     end

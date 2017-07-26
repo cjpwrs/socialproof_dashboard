@@ -7,6 +7,21 @@
   height: 100%;
 }
 
+.new-account-banner {
+  display: flex;
+  justify-content: center;
+  background-color: #5CB85C;
+  border-radius: 2px;
+  color: #fff;
+  text-align: center;
+  padding: 16px;
+  margin-bottom: 10px;
+
+  p {
+    margin: auto;
+  }
+}
+
 .index-first-section {
   position: relative;
   color: #fff;
@@ -30,7 +45,7 @@
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    
+
     justify-content: center;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -207,7 +222,7 @@
     ul.list {
       text-align: left;
 
-      .green-bullet {  
+      .green-bullet {
         color: #08a91c;
       }
 
@@ -220,7 +235,7 @@
       border-top: 2px solid #494848;
     }
 
-    tr:first-child { 
+    tr:first-child {
       font-size: 24px;
       font-weight: 700;
     }
@@ -242,12 +257,12 @@
     }
   }
 
-  .pricing-card { 
+  .pricing-card {
     cursor: pointer;
-    transition: all .4s ease-in-out; 
+    transition: all .4s ease-in-out;
   }
-  .pricing-card:hover { 
-    transform: scale(1.1); 
+  .pricing-card:hover {
+    transform: scale(1.1);
   }
 }
 

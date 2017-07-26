@@ -1,5 +1,10 @@
 .container
   .text-center
+  - if @hours_since_creation <= 2 && @current_user.account_id.present?
+    .row
+      .col-md-12
+        .new-account-banner 
+          p Your account has been activated! Your account manager will begin working on your account and it may take 1-2 days for data to be reflected on the dashboard!
   .row
     .col-md-6
       .panel.panel-default.panel-without-border
