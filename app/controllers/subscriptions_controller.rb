@@ -47,6 +47,7 @@ class SubscriptionsController < ApplicationController
 
     @subscription = current_user.subscriptions.new(stripe_subscription_id: stripe_subscription.id, status: stripe_subscription.status)
     if @subscription.save
+      update_getresponse_campaign(current_user)
       tracker do |t|
         t.google_adwords_conversion :conversion, { label: 'zAPvCNHs7XAQ0tvHmAM' }
         t.facebook_pixel :track, { type: 'Purchase', options: { value: 247.35, currency: 'USD' } }
@@ -130,5 +131,36 @@ class SubscriptionsController < ApplicationController
 
   def get_subscription
     Subscription.find subscription_id
+  end
+
+  def update_getresponse_campaign(user)
+    url = 'https://api.getresponse.com/v3/contacts'
+    body = {
+      email: user.email,
+      campaign: {
+        campaignId: 'TNbTF'
+      },
+      name: user.user_name,
+      dayOfCycle: 0
+    }.to_json
+
+    headers = {
+      content_type: 'application/json',
+      x_auth_token: "api-key #{ENV['GET_RESPONSE_API_KEY']}"
+    }
+
+    response = RestClient.get("#{url}?query[email]=#{user.email}", headers)
+    parsed_response = JSON.parse(response.body) if response.present?
+    if parsed_response.count > 0
+      get_response_contact = parsed_response.first if parsed_response.present?
+      contact_id = get_response_contact["contactId"] if get_response_contact.present?
+      RestClient.post("#{url}/#{contact_id}", body, headers) if contact_id.present?
+    else
+      RestClient.post(url, body, headers)
+    end
+
+  rescue RestClient::Conflict,
+         RestClient::BadRequest
+    Rails.logger.info "Unable to update #{user.email} in GetResponse"
   end
 end
