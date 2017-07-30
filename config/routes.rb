@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'dashboard', controller: 'home', action: 'dashboard'
   get 'welcome', controller: 'home', action: 'welcome'
   get 'connect-account', controller: 'home', action: 'connect_account'
+  get 'reconnect-account', controller: 'home', action: 'reconnect_account'
   get 'verify-account', controller: 'home', action: 'verify_account'
   resources :subscriptions do
     member do

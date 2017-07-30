@@ -63,6 +63,38 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_instagram_account
+    account = user_params[:instagram_account]
+    password = user_params[:instagram_password]
+    current_user.needs_stim_reconnect = false
+    current_user.save
+    return redirect_to dashboard_path
+    # if current_user.stim_token.present?
+    #   url = URI.parse("https://stimsocial.com/index.php?route=api/instagram/insert&token=#{current_user.stim_token}&username=#{account}&password=#{password}")
+    #   stim_response = url.read
+    #   return unless stim_response.present?
+    #   @stim_response = eval(stim_response)
+    #   if @stim_response[:success].present? && @stim_response[:success]
+    #     current_user.stim_response = @stim_response
+    #     current_user.needs_stim_reconnect = false
+    #     current_user.save
+    #     return redirect_to dashboard_path
+    #   elsif @stim_response[:success] == false && @stim_response[:errors].present?
+    #     current_user.stim_response = @stim_response
+    #     current_user.save
+    #     errors = @stim_response[:errors]
+    #     if errors[:needs_verification].present?
+    #       session[:instagram_account] = account
+    #       session[:instagram_code] = password
+    #       @stim_response = nil
+    #       return render 'home/verify_account'
+    #     else
+    #       return render 'home/connect_account'
+    #     end
+    #   end
+    # end
+  end
+
   def validation_email
     @user = User.find_by :email => email_params
     respond_to do |format|

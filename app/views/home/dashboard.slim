@@ -1,5 +1,17 @@
 .container
   .text-center
+  - if @current_user.needs_stim_reconnect == true
+    .modal-container
+      .modal-dialog role="document" 
+        .modal-content
+          .modal-header
+            button.close aria-label="Close" data-dismiss="modal" type="button" 
+              span aria-hidden="true"  &times;
+            h2#myModalLabel.modal-title SocialProof Terms of Service
+          .modal-body
+            .terms_body
+              p.continue-wrap
+                a.btn.btn-success.btn-continue href="#{reconnect_account_path}" CONTINUE
   - if @hours_since_creation <= 2 && @current_user.account_id.present?
     .row
       .col-md-12

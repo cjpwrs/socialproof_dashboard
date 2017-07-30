@@ -1,0 +1,22 @@
+.container-fluid.welcome-page
+  .container
+    .col-sm-12
+      h1 Ocassionaly, we need to re-establish a connection with your instagram account
+      p Please enter your Instagram username(not email), and password.
+      -if @stim_response.present?
+        p.instagram-errors-wrap
+          -@stim_response[:errors].each do |key, value|
+            span.instagram-errors.text-danger= key.to_s.capitalize + ': '
+            span.instagram-errors.text-danger= value
+      = simple_form_for current_user, :url => add_instagram_account_user_path(current_user), :method => :post do |f|
+        = f.input :instagram_account, placeholder: 'Instagram Username', label: false
+        = f.input :instagram_password, placeholder: 'Instagram Password', label: false
+        = f.button :submit, 'Reconnect Account', class: 'btn btn-success'
+      br
+      small Your account security is very important to us!
+      br
+      small Your password is only used to establish a secure connection with Instagram.
+      br
+      small If you have any security concerns, please contact us at support@socialproofco.com        
+
+= render 'shares/security_certification'

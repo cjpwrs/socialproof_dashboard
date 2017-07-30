@@ -50,6 +50,10 @@ class HomeController < ApplicationController
     @stim_response = nil
   end
 
+  def reconnect_account
+    @stim_response = nil
+  end
+
   def verify_account
     @stim_response = nil
   end

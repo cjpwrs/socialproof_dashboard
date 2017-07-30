@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170723204541) do
+ActiveRecord::Schema.define(version: 20170730165049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20170723204541) do
     t.hstore   "stim_response",          default: {}, null: false
     t.string   "account_id"
     t.string   "stim_account"
+    t.boolean  "needs_stim_reconnect"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["user_name"], name: "index_users_on_user_name", unique: true, using: :btree
