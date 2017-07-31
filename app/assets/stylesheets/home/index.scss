@@ -307,3 +307,16 @@
     color: #000;
   }
 }
+
+.similar_accounts_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.similar_account_container {
+  border: solid 1px #08a91c;
+  border-radius: 3px;
+  width: 40%;
+  height: 66px;
+}

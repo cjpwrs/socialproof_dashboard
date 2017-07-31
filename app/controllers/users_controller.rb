@@ -118,7 +118,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_similar_account
+    instagram_handle = user_params[:similar_account_handle]
+    similar_account = current_user.similar_accounts.new(instagram_handle: instagram_handle)
+    similar_account.save!
+    @current_user = current_user.reload
+    return redirect_to :back
+  end
+
+  def remove_similar_account
+    puts '((((((((((((()))))))))))))'
+    puts similar_account_id.inspect
+    SimilarAccount.find(similar_account_id).destroy
+    return redirect_to :back
+  end
+
   private
+  def similar_account_id
+    params[:id]
+  end
+
   def email_params
     params[:user][:email]
   end

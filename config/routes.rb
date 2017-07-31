@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     member do
       post 'add_instagram_account'
       post 'verify_instagram_account'
+      post 'add_similar_account'
+      post 'remove_similar_account'
     end
 
     collection do
