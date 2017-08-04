@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :similar_accounts
 
-  attr_accessor :is_over_18, :instagram_account, :instagram_password, :growth_performance, :similar_account_handle
+  attr_accessor :is_over_18, :instagram_account, :instagram_password, :growth_performance, :new_target_account
 
   validate :user_is_over_18
 

@@ -84,20 +84,23 @@
           .col-md-6
             button.btn.btn-success.center-block type="button" Account Profile
           .col-md-6
-    .col-md-12
-      h2 Help us help you!
-      = simple_form_for current_user, :url => add_similar_account_user_path(current_user), :method => :post do |f|
-        = f.input :similar_account_handle, placeholder: '@', label: false
-        = f.button :submit, 'Add Account', class: 'btn btn-success'
-      - if @current_user.similar_accounts.count > 0
-        .similar_accounts_container
-          -@current_user.similar_accounts.each do |account|
-            .similar_account_container
-              p
-                = simple_form_for account, url: remove_similar_account_user_path(account), :method => :post do |f|
-                  = f.hidden_field :id
-                  = f.button :submit, 'x', class: 'btn btn-danger'
-              span= account.instagram_handle
+    / .col-md-12
+    /   h2 Help us help you!
+    /   = simple_form_for current_user, :url => add_similar_account_user_path(current_user), :method => :post do |f|
+    /     = f.input :new_target_account, placeholder: '@', label: false
+    /     = f.button :submit, 'Add Account', class: 'btn btn-success'
+    /   - if @current_user.similar_accounts.count > 0
+    /     .similar_accounts_container
+    /       -@current_user.similar_accounts.each do |account|
+    /         .similar_account_container
+    /           p
+    /             = simple_form_for account, url: remove_similar_account_user_path(account), :method => :post do |f|
+    /               = f.hidden_field :id
+    /               = f.button :submit, 'x', class: 'btn btn-danger'
+    /           span= account.instagram_handle
+  .row
+    .col-sm-12
+      = react_component 'TargetAccounts'
       
   / .row
   /   .col-md-2.col-sm-4.top-image
