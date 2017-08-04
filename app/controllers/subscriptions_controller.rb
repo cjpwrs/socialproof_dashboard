@@ -81,6 +81,9 @@ class SubscriptionsController < ApplicationController
       else
         @subscription = subscriptions.first
         @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
+        puts '((((((((((((((((((()))))))))))))))))))'
+        puts @strip_subscription_json.inspect
+
         @stripe_list.reject!{ |plan| plan.amount <= @strip_subscription_json.plan.amount }.map{ |plan|
           price = plan[:amount].to_f/100
           coupon = Stripe::Coupon.retrieve(coupon_finder(plan))
@@ -91,6 +94,33 @@ class SubscriptionsController < ApplicationController
           ' for 30 days. After 30 days, ' + number_to_currency(price, precision: 0) + '/month', plan[:id]]
         }
       end
+
+      # Set your secret key: remember to change this to your live secret key in production
+      # See your keys here: https://dashboard.stripe.com/account/apikeys
+      # Stripe.api_key = "sk_test_BUx3QjaZBt9HOE7u6ooJ2kGx"
+
+      # Set proration date to this moment:
+      proration_date = Time.now.to_i
+
+      # See what the next invoice would look like with a plan switch
+      # and proration set:
+      invoice = Stripe::Invoice.upcoming(
+        :customer => @strip_subscription_json.customer,
+        :subscription => @subscription.stripe_subscription_id,
+        :subscription_plan => "business74", # Switch to new plan
+        :subscription_proration_date => proration_date)
+
+      puts invoice.inspect
+
+      # Calculate the proration cost:
+      current_prorations = invoice.lines.data.select { |ii| ii.period.start == proration_date }
+      cost = 0
+      current_prorations.each do |p|
+        cost += p.amount
+      end
+      @prorated_cost =  cost.to_f/100
+      puts @prorated_cost.inspect
+      puts subscriptions_params['plan'].inspect
   end
 
   def upgrade
