@@ -121,9 +121,9 @@ class UsersController < ApplicationController
   def target_accounts
     if current_user.present?
       puts '(((((((((((((((((())))))))))))))))))'
-      puts current_user.similar_accounts.inspect
+      puts current_user.target_accounts.inspect
       return render json: {
-        response: current_user.similar_accounts
+        response: current_user.target_accounts
       }.to_json(), status: 200
     end
   end
@@ -132,19 +132,21 @@ class UsersController < ApplicationController
     puts '((((((((((((()))))))))))))'
     puts params.inspect
     instagram_handle = params[:new_target_account]
-    similar_account = current_user.similar_accounts.new(instagram_handle: instagram_handle)
+    similar_account = current_user.target_accounts.new(instagram_handle: instagram_handle)
     similar_account.save!
     @current_user = current_user.reload
     return render json: {
-      response: current_user.similar_accounts
+      response: current_user.target_accounts
     }.to_json(), status: 200
   end
 
   def remove_similar_account
     puts '((((((((((((()))))))))))))'
     puts similar_account_id.inspect
-    SimilarAccount.find(similar_account_id).destroy
-    return redirect_to :back
+    TargetAccount.find(similar_account_id).destroy
+    return render json: {
+      response: current_user.target_accounts
+    }.to_json(), status: 200
   end
 
   private

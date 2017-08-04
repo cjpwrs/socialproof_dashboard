@@ -5,7 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   has_many :subscriptions
-  has_many :similar_accounts
+  has_many :target_accounts
 
   attr_accessor :is_over_18, :instagram_account, :instagram_password, :growth_performance, :new_target_account
 
