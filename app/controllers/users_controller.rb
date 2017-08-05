@@ -118,7 +118,37 @@ class UsersController < ApplicationController
     end
   end
 
+  def target_accounts
+    if current_user.present?
+      return render json: {
+        response: current_user.target_accounts
+      }.to_json(), status: 200
+    end
+  end
+
+  def add_target_account
+    instagram_handle = params[:new_target_account]
+    similar_account = current_user.target_accounts.new(instagram_handle: instagram_handle)
+    similar_account.save!
+    @current_user = current_user.reload
+    return render json: {
+      response: current_user.target_accounts
+    }.to_json(), status: 200
+  end
+
+  def delete_target_account
+    target_account = params[:target_account_id]
+    TargetAccount.find(target_account).destroy
+    return render json: {
+      response: current_user.target_accounts
+    }.to_json(), status: 200
+  end
+
   private
+  def similar_account_id
+    params[:id]
+  end
+
   def email_params
     params[:user][:email]
   end
