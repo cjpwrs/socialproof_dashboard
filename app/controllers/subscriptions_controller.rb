@@ -95,6 +95,13 @@ class SubscriptionsController < ApplicationController
         }
       end
 
+      return render json: {
+        response: {
+          plans: @plans,
+          current_subscription: @subscription
+        }
+      }.to_json(), status: 200
+
       # Set your secret key: remember to change this to your live secret key in production
       # See your keys here: https://dashboard.stripe.com/account/apikeys
       # Stripe.api_key = "sk_test_BUx3QjaZBt9HOE7u6ooJ2kGx"
