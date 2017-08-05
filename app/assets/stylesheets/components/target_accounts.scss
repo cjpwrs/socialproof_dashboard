@@ -1,0 +1,96 @@
+.target-accounts-component {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 600px;
+}
+
+.target-account-container{
+  width: 46%;
+  height: 40px;
+  padding: 0 10px;
+  border: solid 1px #F2F2F2;
+  border-radius: 30px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.target-account-close-button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #09A91C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.target-account-close-image {
+  height: 10px;
+  width: 10px !important;
+}
+
+.target-accounts-column {
+  width: 50%;
+}
+
+.target-account-holder {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.target-accounts-explanation {
+  padding: 10px;
+  background: #F2F2F2;
+  margin-bottom: 20px;
+  border-radius: 2px;
+}
+
+.new-target-account-form {
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+  border: solid 1px #F2F2F2;
+  border-radius: 2px;
+}
+
+.new-target-account {
+  height: 100%;
+  width: 70%;
+  padding-left: 6px;
+  border: none;
+  outline: none;
+}
+
+.new-target-account-button {
+  background: #09A91C;
+  border-radius: 0 2px 2px 0;
+  color: #fff;
+  width: 120px;
+  height: 100%;
+  border: none;
+  outline: none;
+}
+
+@media (max-width: 768px){
+  .target-accounts-column {
+    width: 100%;
+    margin-bottom: 20px;
+    height: 300px;
+  }
+
+  .target-account-container{
+    width: 100%;
+  }
+
+  .target-account-holder {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
