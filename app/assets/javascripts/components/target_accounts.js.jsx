@@ -2,7 +2,7 @@ var TargetAccounts = React.createClass({
   getInitialState: function() {
     return {
       targetAccounts: [],
-      newTargetAccount: 'cjpwrs'
+      newTargetAccount: ''
     };
   },
   componentDidMount: function() {
@@ -17,37 +17,38 @@ var TargetAccounts = React.createClass({
         authenticity_token: Functions.getMetaContent("csrf-token")
       },
       success: function(data) {
-        console.log(data);
         if(data.response){
-          console.log('hello')
           self.setState({ targetAccounts: data.response });
         }
       },
       error: function(xhr, status, error) {
-        alert('Cannot get data from API: ', error);
+        console.log(error);
       }
     });
   },
   addTargetAccount: function() {
-    var self = this;
-    $.ajax({
-      url: 'users/add_target_account',
-      type: 'POST',
-      data: {
-        authenticity_token: Functions.getMetaContent("csrf-token"),
-        new_target_account: this.state.newTargetAccount
-      },
-      success: function(data) {
-        console.log(data);
-        if(data.response){
-          console.log('hello')
-          self.setState({ targetAccounts: data.response });
+    if(this.state.newTargetAccount.length > 0) {
+      var self = this;
+      $.ajax({
+        url: 'users/add_target_account',
+        type: 'POST',
+        data: {
+          authenticity_token: Functions.getMetaContent("csrf-token"),
+          new_target_account: this.state.newTargetAccount
+        },
+        success: function(data) {
+          if(data.response){
+            self.setState({
+              targetAccounts: data.response,
+              newTargetAccount: ''
+            });
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log(error);
         }
-      },
-      error: function(xhr, status, error) {
-        alert('Cannot get data from API: ', error);
-      }
-    });
+      });
+    }
   },
   deleteTargetAccount: function(target_account_id) {
     var self = this;
@@ -59,37 +60,77 @@ var TargetAccounts = React.createClass({
         target_account_id: target_account_id
       },
       success: function(data) {
-        console.log(data);
         if(data.response){
-          console.log('hello')
           self.setState({ targetAccounts: data.response });
         }
       },
       error: function(xhr, status, error) {
-        alert('Cannot get data from API: ', error);
+        console.log(error);
       }
     });
   },
+  handleOnChange: function(e) {
+    var self = this;
+    self.setState({
+      [e.target.name]: e.target.value
+    })
+
+  },
+  handleInputKeyDown: function(event) {
+    var self = this;
+    if (event.keyCode === 13 && !event.shiftKey) {
+      event.preventDefault();
+      this.addTargetAccount();
+    }
+  },
   render() {
-    console.log('hello')
     var targetAccounts = this.state.targetAccounts;
     var targetAccountComponents = [];
     if(targetAccounts.length > 0) {
-      console.log('entered if');
       for(i = 0; i < targetAccounts.length; i++) {
-        console.log(targetAccounts[i]);
         targetAccountComponents.push(
-          <div key={i}>
+          <div className="target-account-container" key={targetAccounts[i].id}>
             {targetAccounts[i].instagram_handle}
+            <div
+              className="target-account-close-button"
+              onClick={this.deleteTargetAccount.bind(null, targetAccounts[i].id)}
+            >
+              <img
+                className='target-account-close-image'
+                src="http://cdn.shopify.com/s/files/1/1164/4258/t/1/assets/close-large-white.png?4307655770055302400" alt="close"
+              />
+            </div>
           </div>
         );
       }
     }
     return (
-      <div>
-        <button onClick={this.addTargetAccount}>add</button>
-        {targetAccountComponents}
-        <div>{this.state.target_accounts && this.state.target_accounts[0].instagram_handle}</div>
+      <div className="target-accounts-component">
+        <div className="target-accounts-column">
+          <h2>You target, we find</h2>
+          <div className="target-accounts-explanation">
+            <p>You target followers by picking other instagram accounts similar to yours.</p>
+            <p>We will find new followers for you by liking posts and following/unfollowing people who interact with these accounts.</p>
+          </div>
+          <div className="new-target-account-form">
+            <input
+              className="new-target-account"
+              name="newTargetAccount"
+              onChange={this.handleOnChange}
+              onKeyDown={this.handleInputKeyDown}
+              value={this.state.newTargetAccount}
+              placeholder="Instagram Username"
+            />
+            <button
+              className="new-target-account-button"
+              onClick={this.addTargetAccount}>
+                Add
+            </button>
+          </div>
+        </div>
+        <div className="target-accounts-column target-account-holder">
+          {targetAccountComponents}
+        </div>
       </div>
     )
   }

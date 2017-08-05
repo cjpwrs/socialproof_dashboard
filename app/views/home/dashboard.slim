@@ -98,9 +98,11 @@
     /               = f.hidden_field :id
     /               = f.button :submit, 'x', class: 'btn btn-danger'
     /           span= account.instagram_handle
-  .row
-    .col-sm-12
-      = react_component 'TargetAccounts'
+    .col-md-12
+      .panel.panel-default.panel-without-border.panel-profile
+        .panel-heading Target Accounts
+        .panel-body
+          = react_component 'TargetAccounts'
       
   / .row
   /   .col-md-2.col-sm-4.top-image
