@@ -1,4 +1,11 @@
 ActiveAdmin.register User do
+  sidebar "User Associations", only: [:show, :edit] do
+    ul do
+      li link_to "Target Accounts",    admin_user_target_accounts_path(resource)
+      li link_to "Subscriptions",    admin_user_subscriptions_path(resource)
+    end
+  end
+
   index do
     selectable_column
     id_column
@@ -24,4 +31,12 @@ ActiveAdmin.register User do
       params.permit!
     end
   end
+end
+
+ActiveAdmin.register TargetAccount do
+  belongs_to :user
+end
+
+ActiveAdmin.register Subscription do
+  belongs_to :user
 end
