@@ -58,7 +58,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "social_proof_#{Rails.env}"
   config.action_mailer.perform_caching = false
-  
+
   config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_HOST') }
   ActionMailer::Base.smtp_settings = {
       :address        => 'smtp.sendgrid.net',
@@ -66,7 +66,7 @@ Rails.application.configure do
       :authentication => :plain,
       :user_name      => ENV['SENDGRID_USERNAME'],
       :password       => ENV['SENDGRID_PASSWORD'],
-      :domain         => 'herokuapp.com'
+      :domain         => 'socialproofco.com'
   }
   ActionMailer::Base.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
