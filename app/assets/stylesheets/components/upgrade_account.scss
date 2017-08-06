@@ -1,0 +1,47 @@
+.upgrade-account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-plan-selector {
+  width: 500px;
+  margin-bottom: 12px;
+}
+
+.proration-preview {
+  border: solid 1px gray;
+  width: 500px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.prorated-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.prorated-item-desc {
+  width: 250px;
+}
+
+.prorated-item-amount {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.prorated-last-item {
+  border-bottom: solid 1px black
+}
+
+.upgrade-plan-button {
+  background: #09A91C;
+  color: #fff;
+  height: 40px;
+  width: 300px;
+  border: none;
+  font-size: 18px;
+  border-radius: 2px;
+}
