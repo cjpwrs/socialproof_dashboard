@@ -21,7 +21,6 @@ var UpgradeAccount = React.createClass({
         authenticity_token: Functions.getMetaContent("csrf-token")
       },
       success: function(data) {
-        console.log(data);
         if(data.response){
           self.setState({
             plans: data.response.plans,
@@ -44,7 +43,6 @@ var UpgradeAccount = React.createClass({
         selected_plan: plan
       },
       success: function(data) {
-        console.log(data);
         if(data.response){
           self.setState({
             proration: data.response.proration,
@@ -68,14 +66,7 @@ var UpgradeAccount = React.createClass({
         selected_plan: this.state.selectedPlan
       },
       success: function(data) {
-        console.log(data);
-        if(data.response){
-          self.setState({
-            proration: data.response.proration,
-            selectedPlanData: data.response.selected_plan,
-            selectedPlanPrice: data.response.selected_plan_price
-          });
-        }
+        window.location.href = data.redirect_url;
       },
       error: function(xhr, status, error) {
         console.log(error);
@@ -84,7 +75,6 @@ var UpgradeAccount = React.createClass({
   },
   handleOnChange: function(e) {
     var self = this;
-    console.log(e.target.value);
     self.setState({
       selectedPlan: e.target.value
     })
@@ -98,7 +88,6 @@ var UpgradeAccount = React.createClass({
     }
   },
   render() {
-    console.log(this.state.selectedPlan);
     var plans = this.state.plans;
     var planComponents = [];
     if(plans.length > 0) {

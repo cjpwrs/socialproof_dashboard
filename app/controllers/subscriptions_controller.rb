@@ -77,16 +77,12 @@ class SubscriptionsController < ApplicationController
 
   def get_proration
     plan_param = params[:selected_plan]
-    puts plan_param.inspect
     subscriptions = current_user.subscriptions.order(created_at: :desc)
     subscription = subscriptions.first
     stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
-    # puts stripe_list.inspect
     selected_plan = stripe_list.find {|plan| plan["name"] == plan_param }
-    puts selected_plan.inspect
     stripe_subscription_json = Stripe::Subscription.retrieve subscription.stripe_subscription_id
 
-    # Set proration date to this moment:
     proration_date = Time.now.to_i
 
     # See what the next invoice would look like with a plan switch
@@ -97,7 +93,6 @@ class SubscriptionsController < ApplicationController
       :subscription_plan => selected_plan.id, # Switch to new plan
       :subscription_proration_date => proration_date)
 
-    puts invoice.inspect
 
     # Calculate the proration cost:
     current_prorations = invoice.lines.data.select { |ii| ii.period.start == proration_date }
@@ -106,7 +101,6 @@ class SubscriptionsController < ApplicationController
       cost += p.amount
     end
     prorated_cost =  cost.to_f/100
-    puts prorated_cost.inspect
 
     return render json: {
       response: {
@@ -127,8 +121,6 @@ class SubscriptionsController < ApplicationController
       else
         @subscription = subscriptions.first
         @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
-        puts '((((((((((((((((((()))))))))))))))))))'
-        puts @strip_subscription_json.inspect
 
         @stripe_list.reject!{ |plan| plan.amount <= @strip_subscription_json.plan.amount }.map{ |plan|
           price = plan[:amount].to_f/100
@@ -148,7 +140,6 @@ class SubscriptionsController < ApplicationController
 
   def upgrade
     plan_param = params[:selected_plan]
-    puts plan_param.inspect
     subscriptions = current_user.subscriptions.order(created_at: :desc)
     subscription = subscriptions.first
     stripe_list = Stripe::Plan.all
@@ -159,7 +150,7 @@ class SubscriptionsController < ApplicationController
     stripe_subscription.plan = plan.id
     stripe_subscription.save
     if stripe_subscription.status == 'active'
-      redirect_to subscription
+      render json: {"redirect":true,"redirect_url": subscription_path(:id=> subscription.id)}, status:200
     else
       render :upgrade_plan
     end
