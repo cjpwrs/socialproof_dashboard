@@ -13,10 +13,13 @@
       dd= Time.at(@strip_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{number_to_currency((plan.amount.to_f/100))}"
     / p
     /   a.btn.btn-primary href="#{upgrade_plan_subscription_path}" Upgrade your plan
-    p
-      = simple_form_for @subscription, url: cancel_subscription_path(@subscription), :method => :post do |f|
-        = f.hidden_field :id
-        = f.button :submit, 'Cancel Subscription', class: 'btn btn-danger'
+    / p
+    /   = simple_form_for @subscription, url: cancel_subscription_path(@subscription), :method => :post do |f|
+    /     = f.hidden_field :id
+    /     = f.button :submit, 'Cancel Subscription', class: 'btn btn-danger'
+    p Please email us at
+      <a href="mailto:support@socialproofco.com?Subject=Cancel%20subscription" target="_top">support@socialproofco.com</a>
+      to cancel your subscription
 
   - else
     p Cannot get your card or subscription
