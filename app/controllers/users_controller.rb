@@ -79,6 +79,15 @@ class UsersController < ApplicationController
   end
 
   def account_info
+    subscriptions = current_user.subscriptions.order(created_at: :desc)
+    if subscriptions.length > 0
+      subscription = subscriptions.first
+      stripe_subscription = Stripe::Subscription.retrieve subscription.stripe_subscription_id
+    else
+      subscription = nil
+      stripe_subscription = nil
+    end
+
     stim_response = get_account_info
     if stim_response.present?
       json = eval(stim_response)
@@ -89,7 +98,11 @@ class UsersController < ApplicationController
       end
 
       return render json: {
-        response: stim_response
+        response: {
+          stim_response: stim_response,
+          subscription: subscription,
+          stripe_subscription: stripe_subscription
+        }
       }.to_json(), status: 200
     end
   end
