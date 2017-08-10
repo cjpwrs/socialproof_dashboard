@@ -13,13 +13,13 @@ class UsersController < ApplicationController
         current_user.stim_response = @stim_response
         current_user.account_id = @stim_response[:account_id]
         current_user.user_name = account
-        current_user.stim_account = 'lanenash'
+        current_user.stim_account = 'ridingjay' unless current_user.stim_account.present?
         current_user.save
         return redirect_to new_subscription_path
       elsif @stim_response[:success] == false && @stim_response[:errors].present?
         current_user.stim_response = @stim_response
         current_user.user_name = account
-        current_user.stim_account = 'lanenash'
+        current_user.stim_account = 'ridingjay' unless current_user.stim_account.present?
         current_user.save
         errors = @stim_response[:errors]
         if errors[:needs_verification].present?
@@ -35,6 +35,7 @@ class UsersController < ApplicationController
   end
 
   def verify_instagram_account
+    current_user.refresh_stim_token
     if current_user.stim_token.present?
       account =  session[:instagram_account]
       password =  session[:instagram_code]
@@ -47,7 +48,7 @@ class UsersController < ApplicationController
         current_user.stim_response = @stim_response
         current_user.account_id = @stim_response[:account_id]
         current_user.user_name = account
-        current_user.stim_account = 'lanenash'
+        current_user.stim_account = 'ridingjay' unless current_user.stim_account.present?
         current_user.save
         return redirect_to new_subscription_path
       elsif @stim_response[:success] == false && @stim_response[:errors].present?

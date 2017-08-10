@@ -17,8 +17,10 @@ class User < ApplicationRecord
   def generate_stim_token
     if self.stim_account == 'ridingjay'
       api_key = ENV['JAY_STIM_API_KEY']
-    else
+    elsif self.stim_account == 'lanenash'
       api_key = ENV['STIM_API_KEY']
+    else
+      api_key = ENV['JAY_STIM_API_KEY']
     end
     url = URI.parse("https://stimsocial.com/index.php?route=api/login&key=#{api_key}")
     stim_response = url.read
