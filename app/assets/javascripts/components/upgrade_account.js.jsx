@@ -80,13 +80,6 @@ var UpgradeAccount = React.createClass({
     })
     this.getProration(e.target.value)
   },
-  handleInputKeyDown: function(event) {
-    var self = this;
-    if (event.keyCode === 13 && !event.shiftKey) {
-      event.preventDefault();
-      this.addTargetAccount();
-    }
-  },
   render() {
     var plans = this.state.plans;
     var planComponents = [];

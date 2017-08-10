@@ -1,6 +1,3 @@
 .container
-  h1 Upgrade your plan
+  h1 Change your plan
   = react_component 'UpgradeAccount'
-  / = simple_form_for @subscription, url: :upgrade_subscription, method: :post do |f|
-  /   = f.input :plan, collection: @plans, include_blank: false
-  /   = f.button :submit, 'Upgrade', class: 'submit'
