@@ -125,7 +125,7 @@ var UpgradeAccount = React.createClass({
           </div>
         </div>}
         {this.state.proration && <button onClick={this.upgradePlan} className="upgrade-plan-button">
-          Upgrade Plan
+          Update Plan
         </button>}
       </div>
     )

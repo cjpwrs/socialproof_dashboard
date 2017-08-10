@@ -79,7 +79,7 @@ class SubscriptionsController < ApplicationController
     plan_param = params[:selected_plan]
     subscriptions = current_user.subscriptions.order(created_at: :desc)
     subscription = subscriptions.first
-    stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
+    stripe_list = Stripe::Plan.all
     selected_plan = stripe_list.find {|plan| plan["name"] == plan_param }
     stripe_subscription_json = Stripe::Subscription.retrieve subscription.stripe_subscription_id
 
@@ -122,9 +122,8 @@ class SubscriptionsController < ApplicationController
         @subscription = subscriptions.first
         @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
 
-        @stripe_list.reject!{ |plan| plan.amount <= @strip_subscription_json.plan.amount }.map{ |plan|
+        @stripe_list.reject!{ |plan| plan.name == @strip_subscription_json.plan.name }.map{ |plan|
           price = plan[:amount].to_f/100
-          coupon = Stripe::Coupon.retrieve(coupon_finder(plan))
 
           [plan[:name], plan[:id]]
         }
