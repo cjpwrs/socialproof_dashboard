@@ -1,0 +1,19 @@
+.account-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-button {
+  margin-top: 10px;
+  border-radius: 2px;
+  background: #5CB85C;
+  color: #fff;
+  border: none;
+  height: 32px;
+  padding: 6px 12px;
+
+  &:hover {
+    background: #449d44;
+  }
+}

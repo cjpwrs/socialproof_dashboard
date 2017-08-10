@@ -63,11 +63,12 @@ class SubscriptionsController < ApplicationController
 
   def show
     @subscription = get_subscription
-    @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
-    if @strip_subscription_json.status == 'canceled'
+    @stripe_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
+    if @stripe_subscription_json.status == 'canceled'
       redirect_to new_subscription_path
     else
-      @card = Stripe::Customer.retrieve(@strip_subscription_json.customer).sources.data
+      @upcoming_invoice = Stripe::Invoice.upcoming(:customer => @stripe_subscription_json.customer)
+      @card = Stripe::Customer.retrieve(@stripe_subscription_json.customer).sources.data
     end
   end
 
