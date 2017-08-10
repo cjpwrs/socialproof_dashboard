@@ -1,7 +1,7 @@
 .container
   h1 Your Subscription
-  - if @strip_subscription_json.present? && @card.present?
-    - plan = @strip_subscription_json.items.data.first.plan
+  - if @stripe_subscription_json.present? && @card.present?
+    - plan = @stripe_subscription_json.items.data.first.plan
     dl.dl-horizontal
       dt Your Plan
       dd= plan.name
@@ -10,9 +10,9 @@
       dt Payment Details
       dd= "Card ending in " + @card.first.last4
       dt Upcoming Payment
-      dd= Time.at(@strip_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{number_to_currency((plan.amount.to_f/100))}"
-    / p
-    /   a.btn.btn-primary href="#{upgrade_plan_subscription_path}" Upgrade your plan
+      dd= Time.at(@stripe_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{number_to_currency((@upcoming_invoice.amount_due.to_f/100))}"
+    p
+      a.btn.btn-primary href="#{upgrade_plan_subscription_path}" Change your plan
     / p
     /   = simple_form_for @subscription, url: cancel_subscription_path(@subscription), :method => :post do |f|
     /     = f.hidden_field :id

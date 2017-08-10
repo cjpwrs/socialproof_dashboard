@@ -63,15 +63,56 @@ class SubscriptionsController < ApplicationController
 
   def show
     @subscription = get_subscription
-    @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
-    if @strip_subscription_json.status == 'canceled'
+    @stripe_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
+    if @stripe_subscription_json.status == 'canceled'
       redirect_to new_subscription_path
     else
-      @card = Stripe::Customer.retrieve(@strip_subscription_json.customer).sources.data
+      @upcoming_invoice = Stripe::Invoice.upcoming(:customer => @stripe_subscription_json.customer)
+      @card = Stripe::Customer.retrieve(@stripe_subscription_json.customer).sources.data
     end
   end
 
   def upgrade_plan
+
+  end
+
+  def get_proration
+    plan_param = params[:selected_plan]
+    subscriptions = current_user.subscriptions.order(created_at: :desc)
+    subscription = subscriptions.first
+    stripe_list = Stripe::Plan.all
+    selected_plan = stripe_list.find {|plan| plan["name"] == plan_param }
+    stripe_subscription_json = Stripe::Subscription.retrieve subscription.stripe_subscription_id
+
+    proration_date = Time.now.to_i
+
+    # See what the next invoice would look like with a plan switch
+    # and proration set:
+    invoice = Stripe::Invoice.upcoming(
+      :customer => stripe_subscription_json.customer,
+      :subscription => subscription.stripe_subscription_id,
+      :subscription_plan => selected_plan.id, # Switch to new plan
+      :subscription_proration_date => proration_date)
+
+
+    # Calculate the proration cost:
+    current_prorations = invoice.lines.data.select { |ii| ii.period.start == proration_date }
+    cost = 0
+    current_prorations.each do |p|
+      cost += p.amount
+    end
+    prorated_cost =  cost.to_f/100
+
+    return render json: {
+      response: {
+        proration: prorated_cost,
+        selected_plan: selected_plan,
+        selected_plan_price: selected_plan[:amount].to_f/100
+      }
+    }.to_json(), status: 200
+  end
+
+  def get_upgrade_plan
     @subscription = Subscription.new
     @stripe_list = (Stripe::Plan.all).sort_by { |plan| plan[:amount] }
     subscriptions = current_user.subscriptions.order(created_at: :desc)
@@ -81,28 +122,35 @@ class SubscriptionsController < ApplicationController
       else
         @subscription = subscriptions.first
         @strip_subscription_json = Stripe::Subscription.retrieve @subscription.stripe_subscription_id
-        @stripe_list.reject!{ |plan| plan.amount <= @strip_subscription_json.plan.amount }.map{ |plan|
-          price = plan[:amount].to_f/100
-          coupon = Stripe::Coupon.retrieve(coupon_finder(plan))
-          discount = coupon[:amount_off].to_f/100
-          price_with_discount = price - discount
 
-          [plan[:name] + ' - ' +  number_to_currency(price_with_discount, precision: 0) +
-          ' for 30 days. After 30 days, ' + number_to_currency(price, precision: 0) + '/month', plan[:id]]
+        @stripe_list.reject!{ |plan| plan.name == @strip_subscription_json.plan.name }.map{ |plan|
+          price = plan[:amount].to_f/100
+
+          [plan[:name], plan[:id]]
         }
       end
+
+      return render json: {
+        response: {
+          plans: @plans,
+          current_subscription: @subscription
+        }
+      }.to_json(), status: 200
   end
 
   def upgrade
+    plan_param = params[:selected_plan]
+    subscriptions = current_user.subscriptions.order(created_at: :desc)
+    subscription = subscriptions.first
+    stripe_list = Stripe::Plan.all
+    selected_plan = stripe_list.find {|plan| plan["name"] == plan_param }
 
-    plan_id = subscriptions_params['plan']
-    plan = Stripe::Plan.retrieve(plan_id)
-    subscription = get_subscription
-    strip_subscription = Stripe::Subscription.retrieve(subscription.stripe_subscription_id)
-    strip_subscription.plan = plan.id
-    strip_subscription.save
-    if strip_subscription.status == 'active'
-      redirect_to subscription
+    plan = Stripe::Plan.retrieve(selected_plan[:id])
+    stripe_subscription = Stripe::Subscription.retrieve(subscription.stripe_subscription_id)
+    stripe_subscription.plan = plan.id
+    stripe_subscription.save
+    if stripe_subscription.status == 'active'
+      render json: {"redirect":true,"redirect_url": subscription_path(:id=> subscription.id)}, status:200
     else
       render :upgrade_plan
     end
