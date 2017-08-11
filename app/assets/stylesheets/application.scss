@@ -25,6 +25,7 @@
 @import "components/target_accounts";
 @import "components/upgrade_account";
 @import "components/account_info";
+@import "components/top_engagers";
 @import "reponsive";
 
 body {
@@ -80,15 +81,15 @@ body {
 
   .circle-heart {
     padding: 5px;
-    background-color: #c1272d;
-    color: white;
+    background-color: #FF0000;
+    color: #fff;
     border-radius: 50%;
   }
 
   .circle-comment {
     padding: 5px;
-    background-color: #fbb03b;
-    color: white;
+    background-color: #4285F4;
+    color: #fff;
     border-radius: 50%;
   }
 

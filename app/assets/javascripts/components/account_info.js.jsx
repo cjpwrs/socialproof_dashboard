@@ -17,22 +17,28 @@ var AccountInfo = React.createClass({
         authenticity_token: Functions.getMetaContent("csrf-token")
       },
       success: function(data) {
-        stripe_subscription = data.response.stripe_subscription
-        stim_response = JSON.parse(data.response.stim_response);
-        let instagram_redirect = null;
-        if(stim_response.success){
-          instagram_redirect = "https://www.instagram.com/" + stim_response.data.Username;
-          $('.instagram-username').text(stim_response.data.Username);
+        if(data) {
+          stripe_subscription = data.response.stripe_subscription
+          stim_response = JSON.parse(data.response.stim_response);
+          let instagram_redirect = null;
+          if(stim_response.success){
+            instagram_redirect = "https://www.instagram.com/" + stim_response.data.Username;
+            $('.instagram-username').text(stim_response.data.Username);
+          }
+          if(stripe_subscription) {
+            $('.account-status').text(stripe_subscription.status);
+            $('.account-plan').text(stripe_subscription.plan.name);
+          }
+
+          self.setState({
+            accountInfo: stim_response,
+            getInfo: stim_response.success,
+            instagram_redirect: instagram_redirect
+          });
+        } else {
+          $('.account-status').text('inactive');
+          $('.account-plan').text('no active plan');
         }
-        if(stripe_subscription) {
-          $('.account-status').text(stripe_subscription.status);
-          $('.account-plan').text(stripe_subscription.plan.name);
-        }
-        self.setState({
-          accountInfo: stim_response,
-          getInfo: stim_response.success,
-          instagram_redirect: instagram_redirect
-        });
       },
       error: function(xhr, status, error) {
         alert('Cannot get data from API: ', error);
