@@ -6,6 +6,11 @@ class HomeController < ApplicationController
   def dashboard
     @current_user = current_user
     @hours_since_creation = (DateTime.now - DateTime.parse((current_user.created_at).to_s)).to_i
+    @active_stripe_subscription = nil
+    if current_user.is_subscripted?
+      subscription = current_user.lastest_subscription
+      @active_stripe_subscription = Stripe::Subscription.retrieve subscription.stripe_subscription_id
+    end
 
     if current_user && current_user.account_id.present? && !current_user.stim_token.present?
       current_user.refresh_stim_token
