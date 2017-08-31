@@ -27,6 +27,8 @@ class SubscriptionsController < ApplicationController
     if plan.name == 'BUSINESS'
       ENV['BUSINESS_COUPON']
     elsif plan.name == 'PRO+'
+      ENV['PRO_PLUS_COUPON']
+    elsif plan.name == 'PRO'
       ENV['PRO_COUPON']
     else
       ENV['STARTER_COUPON']
