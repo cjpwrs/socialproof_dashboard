@@ -110,7 +110,8 @@ var TargetAccounts = React.createClass({
           <h2>You target, we find</h2>
           <div className="target-accounts-explanation">
             <p>You target followers by picking other instagram accounts similar to yours.</p>
-            <p>We will find new followers for you by liking posts and following/unfollowing people who interact with these accounts.</p>
+            <p className="pro-tip">We will find new followers for you by liking posts and following/unfollowing people who interact with these accounts. We will unfollow everyone that we follow for you.</p>
+            <p className="pro-tip"><span className="pro-tip-bold">PRO TIP</span>: Add 15(max) accounts that have followers between 10,000 and 80,000</p>
           </div>
           <div className="new-target-account-form">
             <input

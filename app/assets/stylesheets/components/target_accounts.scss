@@ -2,7 +2,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  min-height: 350px;
+  min-height: 300px;
 }
 
 .target-account-container{
@@ -76,6 +76,20 @@
   height: 100%;
   border: none;
   outline: none;
+}
+
+.pro-tip {
+  font-size: 13px;
+}
+
+.pro-tip-bold {
+  font-weight: 700;
+}
+
+.max-following-select {
+  border: solid 1px #F2F2F2;
+  width: 200px;
+  height: 30px;
 }
 
 @media (max-width: 768px){

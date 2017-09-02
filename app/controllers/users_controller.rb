@@ -132,6 +132,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def max_following
+    if current_user.present?
+      return render json: {
+        response: current_user.max_following
+      }.to_json(), status: 200
+    end
+  end
+
+  def set_max_following
+    max_following = params[:max_following]
+    current_user.max_following = max_following
+    current_user.save!
+    return render json: {
+      response: current_user.max_following
+    }.to_json(), status: 200
+  end
+
   def target_accounts
     if current_user.present?
       return render json: {

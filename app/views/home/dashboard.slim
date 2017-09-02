@@ -86,6 +86,11 @@
         .panel-heading Target Accounts
         .panel-body
           = react_component 'TargetAccounts'
+    .col-md-12
+      .panel.panel-default.panel-without-border.panel-profile
+        .panel-heading Settings
+        .panel-body
+          = react_component 'Settings'
     - if @active_stripe_subscription.present? && @active_stripe_subscription.plan.name == 'BUSINESS'
       .col-sm-12
         = react_component 'TopEngagers'

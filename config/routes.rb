@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post 'subscriptions/upgrade_plan', controller: 'subscriptions', action: 'upgrade'
   post 'users/add_target_account', controller: 'users', action: 'add_target_account'
   post 'users/delete_target_account', controller: 'users', action: 'delete_target_account'
+  post 'users/set_max_following', controller: 'users', action: 'set_max_following'
   resources :subscriptions do
     member do
       post 'cancel'
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
       get 'target_performance'
       get 'top_engagers'
       get 'target_accounts'
+      get 'max_following'
     end
   end
 end
