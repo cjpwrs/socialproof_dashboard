@@ -151,6 +151,8 @@ class SubscriptionsController < ApplicationController
     stripe_subscription = Stripe::Subscription.retrieve(subscription.stripe_subscription_id)
     stripe_subscription.plan = plan.id
     stripe_subscription.save
+
+    send_slack_notification(current_user, plan_param)
     if stripe_subscription.status == 'active'
       render json: {"redirect":true,"redirect_url": subscription_path(:id=> subscription.id)}, status:200
     else
@@ -181,6 +183,19 @@ class SubscriptionsController < ApplicationController
 
   def get_subscription
     Subscription.find subscription_id
+  end
+
+  def send_slack_notification(user, plan)
+    url = 'https://hooks.slack.com/services/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'
+    body = {
+      text: "<https://dashboard.socialproofco.com/admin/users/#{user.id}|#{user.email}> switched to the #{plan} plan"
+    }.to_json
+
+    headers = {
+      content_type: 'application/json'
+    }
+
+    RestClient.post(url, body, headers)
   end
 
   def update_getresponse_campaign(user)

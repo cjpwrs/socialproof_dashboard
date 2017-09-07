@@ -144,6 +144,7 @@ class UsersController < ApplicationController
     max_following = params[:max_following]
     current_user.max_following = max_following
     current_user.save!
+    send_slack_notification(current_user, max_following)
     return render json: {
       response: current_user.max_following
     }.to_json(), status: 200
@@ -186,5 +187,18 @@ class UsersController < ApplicationController
 
   def user_params
     params[:user]
+  end
+
+  def send_slack_notification(user, max_following)
+    url = 'https://hooks.slack.com/services/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'
+    body = {
+      text: "<https://dashboard.socialproofco.com/admin/users/#{user.id}|#{user.email}> changed their max following to #{max_following}"
+    }.to_json
+
+    headers = {
+      content_type: 'application/json'
+    }
+
+    RestClient.post(url, body, headers)
   end
 end
