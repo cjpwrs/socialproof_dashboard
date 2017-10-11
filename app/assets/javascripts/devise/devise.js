@@ -72,7 +72,7 @@ function initRegistrationValidate() {
   $('#user_is_over_18').rules('add', {
     required: true,
     messages: {
-      required: "You have to over 18"
+      required: "***"
     }
   });
 };

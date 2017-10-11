@@ -62,6 +62,24 @@ body {
   }
 }
 
+.main-footer {
+  width: 100vw;
+  height: 60px;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    color: white;
+  }
+}
+
+.modal-content {
+  color: black;
+}
+
 .line-separator {
   height:1px;
   background:#717171;

@@ -94,6 +94,8 @@
     - if @active_stripe_subscription.present? && @active_stripe_subscription.plan.name == 'BUSINESS'
       .col-sm-12
         = react_component 'TopEngagers'
+        
+/ = render 'shares/footer'
       
   / .row
   /   .col-md-2.col-sm-4.top-image
