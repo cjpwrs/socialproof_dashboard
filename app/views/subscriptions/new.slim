@@ -57,4 +57,13 @@
       = f.input :card_expiry, placeholder: 'ex. 12/18', input_html: { data: { stripe: "card_expiry" } }
     .smaller-input
       = f.input :card_cvc, input_html: { data: { stripe: "cvc" } }
-    = f.button :submit, 'Subscribe', class: 'submit'
+    <div class="form-group boolean optional user_accepted_terms">
+      <div class="checkbox">
+        <input class="boolean optional" type="checkbox" id="user_accepted_terms" />
+        span I have read and agree to the terms of service
+        span
+          button.terms-button data-target="#terms" data-toggle="modal" type="button"
+            | Terms of Service
+      </div>
+    </div>
+    = f.button :submit, 'Subscribe', class: 'submit', id: 'new-subscription-button'
