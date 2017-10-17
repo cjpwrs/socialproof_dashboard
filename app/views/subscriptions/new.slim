@@ -53,6 +53,8 @@
       = f.input :plan, collection: @plans, include_blank: false
     .medium-input
       = f.input :card_number, input_html: { data: { stripe: "number" } }
+    .payment-types
+      = image_tag "/assets/payment_types.jpg"
     .smaller-input
       = f.input :card_expiry, placeholder: 'ex. 12/18', input_html: { data: { stripe: "card_expiry" } }
     .smaller-input
@@ -67,3 +69,5 @@
       </div>
     </div>
     = f.button :submit, 'Subscribe', class: 'submit', id: 'new-subscription-button'
+    
+= render 'shares/security_certification'
