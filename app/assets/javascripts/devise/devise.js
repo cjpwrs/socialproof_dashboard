@@ -11,7 +11,8 @@ $(function() {
     if($('#new_subscription').length > 0){
       $('#new_subscription').submit();
     }else{
-      window.location.href = '/welcome';
+      // window.location.href = '/welcome';
+      window.location.href = '/subscriptions/new';
     }
   }).bind("ajax:error", function(evt, xhr, status, error) {
     $("#sign-up-and-subscription").attr("disabled", false);
