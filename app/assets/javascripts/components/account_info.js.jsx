@@ -18,16 +18,16 @@ var AccountInfo = React.createClass({
       },
       success: function(data) {
         if(data) {
-          stripe_subscription = data.response.stripe_subscription
+          authorizenet_subscription = data.response.authorizenet_subscription
           stim_response = JSON.parse(data.response.stim_response);
           let instagram_redirect = null;
+          if(authorizenet_subscription) {
+            $('.account-status').text(authorizenet_subscription.status);
+            $('.account-plan').text(authorizenet_subscription.name);
+          }
           if(stim_response.success){
             instagram_redirect = "https://www.instagram.com/" + stim_response.data.Username;
             $('.instagram-username').text(stim_response.data.Username);
-          }
-          if(stripe_subscription) {
-            $('.account-status').text(stripe_subscription.status);
-            $('.account-plan').text(stripe_subscription.plan.name);
           }
 
           self.setState({
@@ -41,7 +41,7 @@ var AccountInfo = React.createClass({
         }
       },
       error: function(xhr, status, error) {
-        alert('Cannot get data from API: ', error);
+        console.log('Cannot get data from API: ', error);
       }
     });
   },

@@ -4,13 +4,13 @@ html
     title SocialProof
     meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"
     = csrf_meta_tags
-    = tag :meta, name: "stripe-key", content: ENV['STRIPE_PUB_KEY']
+    / = tag :meta, name: "stripe-key", content: ENV['STRIPE_PUB_KEY']
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     link href='https://fonts.googleapis.com/css?family=Montserrat:300,400' rel='stylesheet' type='text/css'
     script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"
     script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"
-    script src="https://js.stripe.com/v2/"
+    / script src="https://js.stripe.com/v2/"
   body
     
     //Google Analytics Tracking Code 
