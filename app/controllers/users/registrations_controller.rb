@@ -29,8 +29,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
       respond_to do |format|
         format.json { render json: {success: true} }
-        # format.html { redirect_to dashboard_path }
-        format.html { redirect_to new_subscription_path }
+        format.html { redirect_to dashboard_path }
+        # format.html { redirect_to new_subscription_path }
       end
     else
       clean_up_passwords resource

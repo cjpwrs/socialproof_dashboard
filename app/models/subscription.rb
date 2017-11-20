@@ -1,6 +1,7 @@
 class Subscription < ApplicationRecord
   belongs_to :user
-  attr_accessor :stripe_card_token, :card_number, :card_expiry, :card_cvc, :card_address_zip, :email, :plan
+  belongs_to :subscription_type
+  attr_accessor :stripe_card_token, :card_number, :card_expiry, :card_cvc, :card_address_zip, :email, :plan, :name_on_card
 
   def save_with_payment
     if valid?

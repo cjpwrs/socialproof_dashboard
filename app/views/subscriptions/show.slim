@@ -1,16 +1,18 @@
 .container
   h1 Your Subscription
-  - if @stripe_subscription_json.present? && @card.present?
-    - plan = @stripe_subscription_json.items.data.first.plan
+  - if @authorizenet_subscription.present?
+    - plan = @authorizenet_subscription.subscription
     dl.dl-horizontal
       dt Your Plan
       dd= plan.name
+      dt Subscription Status
+      dd= plan.status
+      dt Monthly Amount
+      dd= number_to_currency(plan.amount, precision: 0)
       dt Billing Cycle
-      dd= ((plan.interval == 'month') ? 'monthly' : plan.interval).capitalize
+      dd= "Billed on the " + (plan.paymentSchedule.startDate).to_date.day.ordinalize + " of each month"
       dt Payment Details
-      dd= "Card ending in " + @card.first.last4
-      dt Upcoming Payment
-      dd= Time.at(@stripe_subscription_json.current_period_end).strftime("%b/%d/%Y") + " #{number_to_currency((@upcoming_invoice.amount_due.to_f/100))}"
+      dd= "Card ending in " + plan.profile.paymentProfile.payment.creditCard.cardNumber
     / p
     /   a.btn.btn-primary href="#{upgrade_plan_subscription_path}" Change your plan
     / p

@@ -1,4 +1,8 @@
 class HomeController < ApplicationController
+  require 'authorizenet'
+
+  include AuthorizeNet::API
+
   before_action :authenticate_user!
   def index
   end
@@ -9,7 +13,9 @@ class HomeController < ApplicationController
     @active_stripe_subscription = nil
     if current_user.is_subscripted?
       subscription = current_user.lastest_subscription
-      @active_stripe_subscription = Stripe::Subscription.retrieve subscription.stripe_subscription_id
+      if subscription.authorizenet_subscription_id.present?
+        @active_subscription = get_existing_subscription_from_authorize(subscription)
+      end
     end
 
     if current_user && current_user.account_id.present? && !current_user.stim_token.present?
@@ -25,6 +31,22 @@ class HomeController < ApplicationController
         end
         current_user.growth_performance = (growth_performance).sort_by { |day| day[:date] }.reverse!
       end
+    end
+  end
+
+  def get_existing_subscription_from_authorize(subscription)
+    transaction = Transaction.new(ENV['AUTHORIZE_LOGIN_ID'], ENV['AUTHORIZE_TRANSACTION_KEY'], :gateway => :production)
+
+    request = ARBGetSubscriptionRequest.new
+
+    request.subscriptionId = subscription.authorizenet_subscription_id
+
+    response = transaction.arb_get_subscription_request(request)
+
+    if response.messages.resultCode == MessageTypeEnum::Ok
+      return response
+    else
+      raise "Failed to get subscription details."
     end
   end
 

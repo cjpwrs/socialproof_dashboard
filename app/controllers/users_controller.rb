@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  require 'authorizenet'
+
+  include AuthorizeNet::API
+
   before_action :authenticate_user!, except: [:validation_email]
 
   def add_instagram_account
@@ -81,12 +85,16 @@ class UsersController < ApplicationController
 
   def account_info
     subscriptions = current_user.subscriptions.order(created_at: :desc)
-    if subscriptions.length > 0
-      subscription = subscriptions.first
-      stripe_subscription = Stripe::Subscription.retrieve subscription.stripe_subscription_id
+    if current_user.is_subscripted?
+      subscription = current_user.lastest_subscription
+      authorizenet_subscription = get_existing_subscription_from_authorize(subscription)
+      authorizenet_subscription = {
+        status: authorizenet_subscription.subscription.status,
+        name: authorizenet_subscription.subscription.name
+      }
     else
       subscription = nil
-      stripe_subscription = nil
+      authorizenet_subscription = nil
     end
 
     stim_response = get_account_info
@@ -102,9 +110,33 @@ class UsersController < ApplicationController
         response: {
           stim_response: stim_response,
           subscription: subscription,
-          stripe_subscription: stripe_subscription
+          authorizenet_subscription: authorizenet_subscription
         }
       }.to_json(), status: 200
+    else
+      return render json: {
+        response: {
+          stim_response: nil,
+          subscription: subscription,
+          authorizenet_subscription: authorizenet_subscription
+        }
+      }.to_json(), status: 200
+    end
+  end
+
+  def get_existing_subscription_from_authorize(subscription)
+    transaction = Transaction.new(ENV['AUTHORIZE_LOGIN_ID'], ENV['AUTHORIZE_TRANSACTION_KEY'], :gateway => :production)
+
+    request = ARBGetSubscriptionRequest.new
+
+    request.subscriptionId = subscription.authorizenet_subscription_id
+
+    response = transaction.arb_get_subscription_request(request)
+
+    if response.messages.resultCode == MessageTypeEnum::Ok
+      return response
+    else
+      raise "Failed to get subscription details."
     end
   end
 

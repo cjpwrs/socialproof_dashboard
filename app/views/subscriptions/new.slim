@@ -52,6 +52,8 @@
     .medium-input
       = f.input :plan, collection: @plans, include_blank: false
     .medium-input
+      = f.input :name_on_card, placeholder: 'ex. John Doe'
+    .medium-input
       = f.input :card_number, input_html: { data: { stripe: "number" } }
     .payment-types
       = image_tag "/assets/payment_types.jpg"
@@ -69,5 +71,8 @@
       </div>
     </div>
     = f.button :submit, 'Subscribe', class: 'submit', id: 'new-subscription-button'
+  -if @new_subscription_error.present?
+    p.instagram-errors-wrap
+      span.instagram-errors.text-danger= @new_subscription_error
     
 = render 'shares/security_certification'
