@@ -4,6 +4,7 @@ ActiveAdmin.register Subscription do
     id_column
     column :user_id
     column :stripe_subscription_id
+    column :authorizenet_subscription_id
     column :status
     column :created_at
     actions
@@ -13,6 +14,7 @@ ActiveAdmin.register Subscription do
     f.inputs "User Details" do
       f.input :user_id
       f.input :stripe_subscription_id
+      f.input :authorizenet_subscription_id
       f.input :status
     end
     f.actions
