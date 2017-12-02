@@ -87,11 +87,16 @@ class UsersController < ApplicationController
     subscriptions = current_user.subscriptions.order(created_at: :desc)
     if current_user.is_subscripted?
       subscription = current_user.lastest_subscription
-      authorizenet_subscription = get_existing_subscription_from_authorize(subscription)
-      authorizenet_subscription = {
-        status: authorizenet_subscription.subscription.status,
-        name: authorizenet_subscription.subscription.name
-      }
+      if subscription.authorizenet_subscription_id.present?
+        authorizenet_subscription = get_existing_subscription_from_authorize(subscription)
+        authorizenet_subscription = {
+          status: authorizenet_subscription.subscription.status,
+          name: authorizenet_subscription.subscription.name
+        }
+      else
+        subscription = nil
+        authorizenet_subscription = nil
+      end
     else
       subscription = nil
       authorizenet_subscription = nil
