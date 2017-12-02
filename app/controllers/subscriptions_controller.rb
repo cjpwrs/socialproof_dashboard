@@ -29,7 +29,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
-    puts "HEEEELLLLLLOOOOOO"
     plan_id = subscriptions_params['plan']
     plan = SubscriptionType.find(plan_id)
     card_number = subscriptions_params['card_number']
@@ -57,7 +56,7 @@ class SubscriptionsController < ApplicationController
     request.subscription.payment.creditCard = CreditCardType.new(card_number, card_expiry, card_cvc)
 
     request.subscription.order = OrderType.new(current_user.id,'New Subscription')
-    request.subscription.customer = CustomerType.new(CustomerTypeEnum::Individual, current_user.id, email)
+    request.subscription.customer = CustomerType.new(CustomerTypeEnum::Individual, current_user.id, current_user.email)
     request.subscription.billTo = NameAndAddressType.new(name_on_card, name_on_card)
 
     response = transaction.create_subscription(request)
