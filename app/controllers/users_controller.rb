@@ -104,11 +104,11 @@ class UsersController < ApplicationController
 
     stim_response = get_account_info
     if stim_response.present?
-      json = eval(stim_response)
-      if !json[:success]
+      json = JSON.parse(stim_response)
+      if !json['success']
         current_user.refresh_stim_token
         stim_response = get_account_info
-        json = eval(stim_response)
+        json = JSON.parse(stim_response)
       end
 
       return render json: {
