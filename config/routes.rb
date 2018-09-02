@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get 'subscriptions/get_upgrade_plan', controller: 'subscriptions', action: 'get_upgrade_plan'
   post 'subscriptions/get_proration', controller: 'subscriptions', action: 'get_proration'
   post 'subscriptions/upgrade_plan', controller: 'subscriptions', action: 'upgrade'
+  post 'subscriptions/update_payment', controller: 'subscriptions', action: 'update_payment'
+  post 'subscriptions/update_authorize_subscription', controller: 'subscriptions', action: 'update_authorize_subscription'
   post 'users/add_target_account', controller: 'users', action: 'add_target_account'
   post 'users/delete_target_account', controller: 'users', action: 'delete_target_account'
   post 'users/set_max_following', controller: 'users', action: 'set_max_following'
@@ -21,6 +23,8 @@ Rails.application.routes.draw do
       post 'cancel'
       get 'upgrade_plan'
       post 'upgrade'
+      get 'update_payment'
+      post 'update_authorize_subscription'
     end
   end
 

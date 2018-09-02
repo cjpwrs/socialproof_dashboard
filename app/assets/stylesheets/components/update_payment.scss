@@ -1,0 +1,41 @@
+.update-payment-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 100px 16px;
+}
+
+.payment-input {
+  height: 30px;
+  border-radius: 6px;
+}
+
+.card-number {
+  width: 290px;
+}
+
+.card-expiry {
+  width: 60px;
+}
+
+.card-cvc {
+  width: 45px;
+  margin-bottom: 10px;
+}
+
+.payment-error {
+  color: red;
+}
+
+.update-payment-button {
+  background: #09A91C;
+  color: #fff;
+  height: 40px;
+  width: 300px;
+  border: none;
+  font-size: 18px;
+  border-radius: 2px;
+}
+
+.payment-button-disabled {
+  background: gray;
+}

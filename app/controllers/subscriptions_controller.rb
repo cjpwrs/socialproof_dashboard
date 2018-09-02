@@ -201,6 +201,45 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def update_payment
+
+  end
+
+  def update_authorize_subscription
+    subscriptions = current_user.subscriptions.where(status: 'active').order(created_at: :desc)
+    subscription = subscriptions.first
+    card_number = params[:card_number]
+    card_expiry = params[:card_expiry]
+    card_cvc = params[:card_cvc]
+    transaction = Transaction.new(ENV['AUTHORIZE_LOGIN_ID'], ENV['AUTHORIZE_TRANSACTION_KEY'], :gateway => :production)
+
+    request = ARBUpdateSubscriptionRequest.new
+    request.subscriptionId = subscription.authorizenet_subscription_id
+    request.subscription = ARBSubscriptionType.new
+
+    request.subscription.payment = PaymentType.new
+    request.subscription.payment.creditCard = CreditCardType.new(card_number, card_expiry, card_cvc)
+
+    response = transaction.update_subscription(request)
+
+    if response != nil
+      if response.messages.resultCode == MessageTypeEnum::Ok
+        puts "Successfully updated a subscription."
+        puts "  Response code: #{response.messages.messages[0].code}"
+        puts "  Response message: #{response.messages.messages[0].text}"
+        render json: {"redirect":true,"redirect_url": subscription_path(:id=> subscription.id)}, status:200
+      else
+        puts response.messages.messages[0].code
+        puts response.messages.messages[0].text
+        new()
+        return render json: {error: response.messages.messages[0].text}, status: 400
+        raise "Failed to get a subscriptions status"
+      end
+    end
+
+    return response
+  end
+
   def cancel
     cancel_subscription
     redirect_to new_subscription_path
