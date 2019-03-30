@@ -4,9 +4,38 @@
   text-decoration: line-through;
 }
 
+.clean-feed-crossed {
+  text-decoration: line-through;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+.clean-feed {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+.speed {
+  margin-bottom: 4px;
+}
+
 .price-title {
   font-size: 22px;
   font-weight: 600;
+}
+
+.price-title-pro-plus {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  background-color: #08a91c;
+}
+
+.price-title-business {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  background-color: black;
 }
 
 .price-actual {

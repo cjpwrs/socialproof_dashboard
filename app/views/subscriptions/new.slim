@@ -12,7 +12,8 @@
               td
                 p.prices $24
                 span.price-actual $14
-                p 1x Speed
+                p.speed 1x Speed
+                p.clean-feed-crossed Clean Feed
       .col-sm-3.fifth-section-main-column.pricing-card
         table.table.table-bordered
           tbody.centered
@@ -22,30 +23,33 @@
               td
                 p.prices $34
                 span.price-actual $19
-                p 1.5x Speed
+                p.speed 1.5x Speed
+                p.clean-feed-crossed Clean Feed
       .col-sm-3.fifth-section-main-column.pricing-card
         table.table.table-bordered
           tbody.centered
             tr
-              td.price-title PRO+
+              td.price-title-pro-plus PRO+
             tr.pricing-details
               td
                 p.prices $44
                 span.price-actual $19
-                p 2x Speed
+                p.speed 2x Speed
+                p.clean-feed Clean Feed
       .col-sm-3.fifth-section-main-column.pricing-card
         table.table.table-bordered
           tbody.centered
             tr
-              td.price-title BUSINESS
+              td.price-title-business BUSINESS
             tr.pricing-details
               td
                 p.prices $74
                 span.price-actual $19
-                p 2x Speed
-  
-  
-  
+                p.speed 2x Speed
+                p.clean-feed Clean Feed
+
+
+
   = simple_form_for @subscription do |f|
     = f.hidden_field :stripe_card_token
     = f.hidden_field :email, input_html: { value: "#{current_user.email}" }
@@ -74,5 +78,5 @@
   -if @new_subscription_error.present?
     p.instagram-errors-wrap
       span.instagram-errors.text-danger= @new_subscription_error
-    
+
 = render 'shares/security_certification'
