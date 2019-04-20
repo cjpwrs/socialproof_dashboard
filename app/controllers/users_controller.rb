@@ -17,13 +17,13 @@ class UsersController < ApplicationController
         current_user.stim_response = @stim_response
         current_user.account_id = @stim_response[:account_id]
         current_user.user_name = account
-        current_user.stim_account = 'jay' unless current_user.stim_account.present?
+        current_user.stim_account = 'lanenash' unless current_user.stim_account.present?
         current_user.save
         return redirect_to new_subscription_path
       elsif @stim_response[:success] == false && @stim_response[:errors].present?
         current_user.stim_response = @stim_response
         current_user.user_name = account
-        current_user.stim_account = 'jay' unless current_user.stim_account.present?
+        current_user.stim_account = 'lanenash' unless current_user.stim_account.present?
         current_user.save
         errors = @stim_response[:errors]
         if errors[:needs_verification].present?
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
         current_user.stim_response = @stim_response
         current_user.account_id = @stim_response[:account_id]
         current_user.user_name = account
-        current_user.stim_account = 'jay' unless current_user.stim_account.present?
+        current_user.stim_account = 'lanenash' unless current_user.stim_account.present?
         current_user.save
         return redirect_to new_subscription_path
       elsif @stim_response[:success] == false && @stim_response[:errors].present?
